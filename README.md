@@ -1,6 +1,7 @@
 # ROS 2 Workspace: perception_pipeline
 
 ### Workspace Structure:
+```bash
 #### ros2_ws/
 #### ├── src/
 #### │   └── perception_pipeline/
