@@ -32,10 +32,26 @@ Timing & Performance
 Speed: 4.9ms preprocess, 116.4ms inference, 10.5ms postprocess
 Speed: 1.2ms preprocess, 43.4ms inference, 0.8ms postprocess
 
-The first frame had more objects (4 cars, 4 bikes) — hence higher inference time.
+The first frame had more objects (4 cars, 4 bikes) —> hence higher inference time.
 
-The second had fewer objects — so inference dropped to ~43 ms.
+The second had fewer objects —> so inference dropped to ~43 ms.
 
 These are normal variations and the inference speed looks reasonable for a GPU pipeline in real-time.
 
+Since the camera is mounted at ~1.2–1.6m height (typical for KITTI), this means the ground point will project to Y ≈ 0.5–0.8 meters in the 3D frame (a bit under the camera).
 
+In KITTI and most robotics vision setups (like ROS and OpenCV camera frames):
+
+X-axis: Left/Right (positive = right, negative = left)
+
+Y-axis: Vertical, up/down (positive = up)
+
+Z-axis: Forward/Depth (distance from the camera, always positive)
+
+So the coordinate (X=1.56, Y=0.59, Z=5.42) means:
+
+The object is 1.56 m to the right of the camera center (X)
+
+0.59 m above the camera’s optical center (Y)
+
+5.42 m in front of the camera (Z)
