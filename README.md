@@ -33,10 +33,9 @@ Speed: 4.9ms preprocess, 116.4ms inference, 10.5ms postprocess
 Speed: 1.2ms preprocess, 43.4ms inference, 0.8ms postprocess
 
 The first frame had more objects (4 cars, 4 bikes) —> hence higher inference time.
-
 The second had fewer objects —> so inference dropped to ~43 ms.
 
-These are normal variations and the inference speed looks reasonable for a GPU pipeline in real-time.
+
 
 Since the camera is mounted at ~1.2–1.6m height (typical for KITTI), this means the ground point will project to Y ≈ 0.5–0.8 meters in the 3D frame (a bit under the camera).
 
