@@ -54,3 +54,5 @@ The object is 1.56 m to the right of the camera center (X)
 0.59 m above the camera’s optical center (Y)
 
 5.42 m in front of the camera (Z)
+
+color for detection, grayscale for stereo.
