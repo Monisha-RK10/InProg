@@ -49,7 +49,9 @@ Let’s say:
  - 128 pixels means we search from 0 to 127 pixel shifts.
  - Depth = f.B/Disparity = 700 * 0.54/128 = 2.95 (approx.) Closest depth it can measure is ~3 meters.
  - Covers the useful range of 3 to 50 meters, which is ideal for KITTI objects like cars and pedestrians.
-> Note: In theory, we can get 378 m (with disparity = 1), however, in practice, anything beyond 50–70 m is unreliable with standard 1242×375 KITTI images. At large depths, disparity becomes very small. E.g., at 50 m → disparity ~7.5 px, at 100 m → disparity ~3.78 px, Stereo matchers like SGBM have trouble detecting disparities that small accurately (sub-pixel errors dominate, noise increases).
+> Note: In theory, we can get 378 m (with disparity = 1), however, in practice, anything beyond 50–70 m is unreliable with standard 1242×375 KITTI images.
+> At large depths, disparity becomes very small.
+> E.g., at 50 m → disparity ~7.5 px, at 100 m → disparity ~3.78 px, Stereo matchers like SGBM have trouble detecting disparities that small accurately (sub-pixel errors dominate, noise increases).
 
  `blockSize=5`             
  
