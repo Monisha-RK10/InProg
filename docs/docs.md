@@ -70,3 +70,11 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
   `speckleRange=32`
   
   - Max disparity variation within that speckle window.
+
+    Imagine a region where most pixels have disparity 50, and suddenly a small 4x4 patch (16 pixels) has disparity 90.
+    With:
+
+     - speckleWindowSize=100 → the 16-pixel patch is too small
+     - speckleRange=32 → the difference from 50 to 90 is too large
+    
+    → This patch is removed (set to -1 in disparity map).
