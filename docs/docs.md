@@ -31,7 +31,7 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
  - Max disparity range to search, must be divisible by 16.
  - Bigger = more depth range, slower.
  - 128 pixels means we search from 0 to 127 pixel shifts.
- - Depth = f.B/Disparity = 700 * 0.54/128 = 2.95 (approx.) Closest depth it can measure is ~3 meters.
+ - Depth = fx.B/Disparity = 700 * 0.54/128 = 2.95 (approx.) where fx=721.54, B=0.5327 m for KITTI. Closest depth it can measure is ~3 meters.
  - Covers the useful range of 3 to 50 meters, which is ideal for KITTI objects like cars and pedestrians.
    
 > Note: In theory, we can get 378 m (with disparity = 1), however, in practice, anything beyond 50–70 m is unreliable with standard 1242×375 KITTI images. Image resolution matters because more pixels = more detail = better matching at a distance.
