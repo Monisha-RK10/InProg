@@ -5,18 +5,22 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 - If a block around pixel (x, y) in the left image matches best with a block around (x–d, y) in the right image, then disparity = d for that pixel.
 - It does this for every pixel or small region.
 
-For example, consider the size of the window i.e., blockSize=5, then a 5×5 pixel patch centered at (x, y) in the left image is compared with a 5×5 patch at (x–d, y) in the right image for all d ∈ [minDisparity, minDisparity + numDisparities).
+**blockSize**
+
+> For example, consider the size of the window i.e., blockSize=5, then a 5×5 pixel patch centered at (x, y) in the left image is compared with a 5×5 patch at (x–d, y) in the right image for all d ∈ [minDisparity, minDisparity + numDisparities).
 - Smaller blockSize → can detect fine details (like poles, wires), but more sensitive to noise.
 - Larger blockSize → smoother results, but fine structures may be lost.
 - It is not the range of search, but the size of what we are comparing at each pixel.
 
-- numDisparities is like "How far are we searching?"
-- This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block.
-- Let’s say:
-  - minDisparity = 0,
-  - numDisparities = 128
- - Then, for every pixel in the left image, the matcher looks in the right image at x - d, where d ∈ [0, 128).
- - In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward.'
+**numDisparities**
+numDisparities is like "How far are we searching?" This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block.
+
+Let’s say:
+- minDisparity = 0,
+- numDisparities = 128
+- Then, for every pixel in the left image, the matcher looks in the right image at x - d, where d ∈ [0, 128).
+
+> In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward.'
 
 ### Stereo SGBM Parameters
 
