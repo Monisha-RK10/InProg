@@ -1,3 +1,23 @@
+## Understanding How StereoSGBM Work
+
+StereoSGBM works by comparing patches (blocks of pixels) between the left and right image. It tries to find the best horizontal shift (disparity) where the two patches match best.
+
+- If a block around pixel (x, y) in the left image matches best with a block around (x–d, y) in the right image, then disparity = d for that pixel.
+- It does this for every pixel or small region.
+
+- For example, consider the size of the window i.e., blockSize=5, then a 5×5 pixel patch centered at (x, y) in the left image is compared with a 5×5 patch at (x–d, y) in the right image for all d ∈ [minDisparity, minDisparity + numDisparities).
+  - Smaller blockSize → can detect fine details (like poles, wires), but more sensitive to noise.
+  - Larger blockSize → smoother results, but fine structures may be lost.
+- It is not the range of search, but the size of what we are comparing at each pixel.
+
+- numDisparities is like "How far are we searching?"
+- This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block.
+- Let’s say:
+  - minDisparity = 0,
+  - numDisparities = 128
+ - Then, for every pixel in the left image, the matcher looks in the right image at x - d, where d ∈ [0, 128).
+ - In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward.'
+
 ### Stereo SGBM Parameters
 
 | Parameter           | Role                              | Value      | Typical Range    |
@@ -35,7 +55,7 @@
   
   - Penalty for small disparity changes (smoother surfaces).
   
-  `P2=32 * 3 * 5**2`
+  `P2=32 * 3 * 5**2 = 2400`
   
   - Penalty for larger disparity jumps (object boundaries).
   - P2 > P1
@@ -43,11 +63,12 @@
   `disp12MaxDiff=1`
   
   - Check consistency between left -> right and right -> left disparity maps.
-  - Helps reject occlusions and mismatches
+  - Helps reject occlusions and mismatches.
   
   `uniquenessRatio=10`
   
-  - Reject matches too close in score to next-best match (helps accuracy). Ensures the best match is significantly better than the second-best   
+  - Reject matches too close in score to next-best match (helps accuracy).
+  - Ensures the best match is significantly better than the second-best.   
   
   `speckleWindowSize=100`
   
