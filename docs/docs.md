@@ -29,6 +29,24 @@ Let’s say:
 
 > numDisparities is like "How far are we searching?" This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block. In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward."
 
+### Real Example: Car at 70m in KITTI (1242x375 image)
+
+| Aspect                                                                  | Value        |
+| ----------------------------------------------------------------------- | ------------ |
+| Approx. width of car                                                    | 1.8 meters   |
+| Focal length $f$                                                        | \~700 pixels |
+| Projected pixel width = $\frac{f \cdot \text{obj width}}{\text{depth}}$ | \~18 pixels  |
+
+> So at 70 m, a car appears only 18 pixels wide. That's not much detail to match!
+
+And if:
+
+- Shadows or occlusions exist
+- Reflective surfaces (like windows) confuse the matcher
+- There are background objects near/around the car
+
+Then stereo gets very noisy and depth estimates start to break down.
+
 ### Stereo SGBM Parameters
 
 | Parameter           | Role                              | Value      | Typical Range    |
