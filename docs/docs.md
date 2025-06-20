@@ -5,9 +5,9 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 - If a block around pixel (x, y) in the left image matches best with a block around (x–d, y) in the right image, then disparity = d for that pixel.
 - It does this for every pixel or small region.
 
-- For example, consider the size of the window i.e., blockSize=5, then a 5×5 pixel patch centered at (x, y) in the left image is compared with a 5×5 patch at (x–d, y) in the right image for all d ∈ [minDisparity, minDisparity + numDisparities).
-  - Smaller blockSize → can detect fine details (like poles, wires), but more sensitive to noise.
-  - Larger blockSize → smoother results, but fine structures may be lost.
+For example, consider the size of the window i.e., blockSize=5, then a 5×5 pixel patch centered at (x, y) in the left image is compared with a 5×5 patch at (x–d, y) in the right image for all d ∈ [minDisparity, minDisparity + numDisparities).
+- Smaller blockSize → can detect fine details (like poles, wires), but more sensitive to noise.
+- Larger blockSize → smoother results, but fine structures may be lost.
 - It is not the range of search, but the size of what we are comparing at each pixel.
 
 - numDisparities is like "How far are we searching?"
