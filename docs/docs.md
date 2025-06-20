@@ -12,29 +12,47 @@
 | `speckleWindowSize` | Minimum speckle region size       | `100`      | `50–200`         |
 | `speckleRange`      | Allowed disparity jump in speckle | `32`       | `1–64`           |
 
+### Values Set in this Project
+
  `minDisparity = 0` 
- Start matching from 0-pixel shift (standard for rectified KITTI), disparity is small for far 
+ 
+- Start matching from 0-pixel shift (standard for rectified KITTI)
+- Disparity is small for far objects
  
  `numDisparities=128`
- Max disparity range to search, must be divisible by 16. Bigger = more depth range, slower. 12>            
+ 
+ - Max disparity range to search, must be divisible by 16
+ - Bigger = more depth range, slower
+ - 128 pixels means we search from 0 to 127 pixel shifts     
  
  `blockSize=5`             
- Size of matching window (odd number). Small -> sharp, sensitive.
  
-  `P1=8 * 3 * 5**2`
-  Penalty for small disparity changes (smoother surfaces).
+ - Size of matching window
+ - Always odd number
+ - Small -> sharp, sensitive
+ 
+  `P1=8 * 3 * 5**2 = 600`
+  
+  - Penalty for small disparity changes (smoother surfaces).
   
   `P2=32 * 3 * 5**2`
-  Penalty for larger disparity jumps (object boundaries). P2 > P1
+  
+  - Penalty for larger disparity jumps (object boundaries).
+  - P2 > P1
             
   `disp12MaxDiff=1`
-  Check consistency between left -> right and right -> left disparity maps. Helps reject occlus
+  
+  - Check consistency between left -> right and right -> left disparity maps.
+  - Helps reject occlusions and mismatches
   
   `uniquenessRatio=10`
-  Reject matches too close in score to next-best match (helps accuracy). Ensures the best match
+  
+  - Reject matches too close in score to next-best match (helps accuracy). Ensures the best match is significantly better than the second-best   
   
   `speckleWindowSize=100`
-  Remove small isolated blobs (noise) in disparity map.
+  
+  - Remove small isolated blobs (noise) in disparity map.
             
   `speckleRange=32`
-  Max disparity variation within that speckle window.
+  
+  - Max disparity variation within that speckle window.
