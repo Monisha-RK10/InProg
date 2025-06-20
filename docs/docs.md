@@ -5,48 +5,6 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 - If a block around pixel (x, y) in the left image matches best with a block around (x–d, y) in the right image, then disparity = d for that pixel.
 - It does this for every pixel or small region.
 
-**blockSize**
-
-> For example, consider the size of the window i.e., blockSize=5, then a 5×5 pixel patch centered at (x, y) in the left image is compared with a 5×5 patch at (x–d, y) in the right image for all d ∈ [minDisparity, minDisparity + numDisparities).
-- Smaller blockSize → can detect fine details (like poles, wires), but more sensitive to noise.
-- Larger blockSize → smoother results, but fine structures may be lost.
-- It is not the range of search, but the size of what we are comparing at each pixel.
-
-**numDisparities**
-
-Let’s say:
-- minDisparity = 0,
-- numDisparities = 128
-- Then, for every pixel in the left image, the matcher looks in the right image at x - d, where d ∈ [0, 128).
-
-| Term                                             | Value                            | Notes                                         |
-| ------------------------------------------------ | -------------------------------- | --------------------------------------------- |
-| **`numDisparities = 128`**                       | covers disparities from 0 to 127 | All disparity values are tested               |
-| **Closest depth (\~disparity = 127)**            | \~3.0 m                          | max disparity = 127                           |
-| **Farthest theoretical depth (\~disparity = 1)** | \~378 m                          | but noisy, unreliable                         |
-| **Useful real-world depth range**                | \~3 to \~50 m                    | For KITTI objects like cars, cyclists, people |
-
-
-> numDisparities is like "How far are we searching?" This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block. In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward."
-
-### Real Example: Car at 70m in KITTI (1242x375 image)
-
-| Aspect                                                                  | Value        |
-| ----------------------------------------------------------------------- | ------------ |
-| Approx. width of car                                                    | 1.8 meters   |
-| Focal length $f$                                                        | \~700 pixels |
-| Projected pixel width = $\frac{f \cdot \text{obj width}}{\text{depth}}$ | \~18 pixels  |
-
-> So at 70 m, a car appears only 18 pixels wide. That's not much detail to match!
-
-And if:
-
-- Shadows or occlusions exist
-- Reflective surfaces (like windows) confuse the matcher
-- There are background objects near/around the car
-
-Then stereo gets very noisy and depth estimates start to break down.
-
 ### Stereo SGBM Parameters
 
 | Parameter           | Role                              | Value      | Typical Range    |
@@ -75,7 +33,8 @@ Then stereo gets very noisy and depth estimates start to break down.
  - 128 pixels means we search from 0 to 127 pixel shifts.
  - Depth = f.B/Disparity = 700 * 0.54/128 = 2.95 (approx.) Closest depth it can measure is ~3 meters.
  - Covers the useful range of 3 to 50 meters, which is ideal for KITTI objects like cars and pedestrians.
-> Note: In theory, we can get 378 m (with disparity = 1), however, in practice, anything beyond 50–70 m is unreliable with standard 1242×375 KITTI images.
+   
+> Note: In theory, we can get 378 m (with disparity = 1), however, in practice, anything beyond 50–70 m is unreliable with standard 1242×375 KITTI images. Image resolution matters because more pixels = more detail = better matching at a distance.
 > At large depths, disparity becomes very small.
 > E.g., at 50 m → disparity ~7.5 px, at 100 m → disparity ~3.78 px, Stereo matchers like SGBM have trouble detecting disparities that small accurately (sub-pixel errors dominate, noise increases).
 
