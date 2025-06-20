@@ -13,14 +13,13 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 - It is not the range of search, but the size of what we are comparing at each pixel.
 
 **numDisparities**
-numDisparities is like "How far are we searching?" This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block.
 
 Let’s say:
 - minDisparity = 0,
 - numDisparities = 128
 - Then, for every pixel in the left image, the matcher looks in the right image at x - d, where d ∈ [0, 128).
 
-> In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward.'
+> numDisparities is like "How far are we searching?" This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block. In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward."
 
 ### Stereo SGBM Parameters
 
