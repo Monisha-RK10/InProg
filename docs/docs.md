@@ -19,6 +19,14 @@ Let’s say:
 - numDisparities = 128
 - Then, for every pixel in the left image, the matcher looks in the right image at x - d, where d ∈ [0, 128).
 
+| Term                                             | Value                            | Notes                                         |
+| ------------------------------------------------ | -------------------------------- | --------------------------------------------- |
+| **`numDisparities = 128`**                       | covers disparities from 0 to 127 | All disparity values are tested               |
+| **Closest depth (\~disparity = 127)**            | \~3.0 m                          | max disparity = 127                           |
+| **Farthest theoretical depth (\~disparity = 1)** | \~378 m                          | but noisy, unreliable                         |
+| **Useful real-world depth range**                | \~3 to \~50 m                    | For KITTI objects like cars, cyclists, people |
+
+
 > numDisparities is like "How far are we searching?" This is where the search range comes in. It defines how many shifts (in pixels) we try to find a good match for each block. In a way, we are saying "Let’s try matching this 5×5 patch in the left image against patches in the right image up to 128 pixels leftward."
 
 ### Stereo SGBM Parameters
