@@ -27,57 +27,57 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 
 KITTI stereo pairs are broadcasted as ROS image topics
 
-Publishes: 
+- Publishes: 
 
-- `/camera/left/image_raw`
-- `/camera/right/image_raw`
+  - `/camera/left/image_raw`
+  - `/camera/right/image_raw`
 
 ### **stereo_depth_node.py**
 
-Subscribes to:
+- Subscribes to:
 
-- `/camera/left/image_raw`
-- `/camera/right/image_raw`
+  - `/camera/left/image_raw`
+  - `/camera/right/image_raw`
 
-Processes:
+- Processes:
 
-- Computes disparity map using OpenCV’s block matcher
-- Uses camera calibration to compute depth map
-- Constructs 3D point cloud using the Q matrix
+  - Computes disparity map using OpenCV’s block matcher
+  - Uses camera calibration to compute depth map
+  - Constructs 3D point cloud using the Q matrix
 
-Publishes:
+- Publishes:
 
-- `/stereo/disparity`– visual disparity map
-- `/stereo/depth_map` – floating-point depth values
+  - `/stereo/disparity`– visual disparity map
+  - `/stereo/depth_map` – floating-point depth values
 
 ### **yolo_detector_node.py**
 
-Subscribes to:
+- Subscribes to:
 
-- `/camera/left/image_raw (for object detection)`
+  - `/camera/left/image_raw (for object detection)`
 
-Processes:
+- Processes:
 
-- Runs YOLOv8 detection on the left image
-- For each detection, extracts 2D center point
-- Queries point_3d map to get (X, Y, Z) real-world position
-- Filters invalid depth (Z=0 or below threshold)
+  - Runs YOLOv8 detection on the left image
+  - For each detection, extracts 2D center point
+  - Queries point_3d map to get (X, Y, Z) real-world position
+  - Filters invalid depth (Z=0 or below threshold)
 
-Publishes:
+- Publishes:
 
-- `/detected_objects_3d`: list of object classes with 3D coordinates
+  - `/detected_objects_3d`: list of object classes with 3D coordinates
 
 ### **warning_node.py**
 
-Subscribes to:
-- `/detected_objects_3d` (YOLO detections)
-- `/stereo/depth_map` (3D point map)
+- Subscribes to:
+  - `/detected_objects_3d` (YOLO detections)
+  - `/stereo/depth_map` (3D point map)
 
-Processes: 
-- Extract 3D positions of detected object centers
-- Apply thresholding to trigger proximity warnings
+- Processes: 
+  - Extract 3D positions of detected object centers
+  - Apply thresholding to trigger proximity warnings
   
-Publishes:
+- Publishes:
 
-- `/3d_warning` or `/proximity_alerts`
+  - `/3d_warning` or `/proximity_alerts`
 ---
