@@ -16,7 +16,7 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 
 [CV-14 (Visual Odometry: Epipolar Geometry — Part 1)](https://medium.com/@monishatemp20/cv-14-visual-odometry-epipolar-geometry-part-1-ffe06a35fa81)
 
-> Note: Person (coco) is mapped to Cyclist (kitti) for visual purpose. This is fine for now because this project does not consider evaluation with MOT/IoU.
+> Note: Person (COCO) is mapped to Cyclist (KITTI) for visual purpose. This is fine for now because this project does not consider evaluation with MOT/IoU.
 >
 > For better class mapping technique, please refer to my earlier project [Real-Time Multi-Object Tracking on KITTI with ROS 2, YOLOv8 & BYTETrack](https://github.com/Monisha-RK10/Real-Time-Multi-Object-Tracking-on-KITTI-with-ROS-2-YOLOv8-BYTETrack), where I implemented cyclist filter.
 
