@@ -5,19 +5,21 @@
 ## Pipeline Overview
 
 **stereo_image_publisher.py**
-Publishes:
 
-- /camera/left/image_raw
-- /camera/right/image_raw
+- Publishes:
+
+  - /camera/left/image_raw
+  - /camera/right/image_raw
 
 **stereo_depth_node.py**
-Subscribes to:
 
-- /camera/left/image_raw
-- /camera/right/image_raw
+- Subscribes to:
 
-And publishes:
+  - /camera/left/image_raw
+  - /camera/right/image_raw
 
-- /stereo/disparity
-- /stereo/depth_map
-- /stereo/3d_warning (optional)
+- And publishes:
+
+  - /stereo/disparity
+  - /stereo/depth_map
+  - /stereo/3d_warning (optional)
