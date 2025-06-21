@@ -20,18 +20,19 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 >
 > In case,you need better mapping technique, please consider my earlier project [Real-Time Multi-Object Tracking on KITTI with ROS 2, YOLOv8 & BYTETrack] (https://github.com/Monisha-RK10/Real-Time-Multi-Object-Tracking-on-KITTI-with-ROS-2-YOLOv8-BYTETrack), where I implemented cyclist filter.
 
+---
 ## Pipeline Overview
 
-**stereo_image_publisher.py**
+### **stereo_image_publisher.py**
 
-Publishes: KITTI stereo pairs are broadcasted as ROS image topics
+KITTI stereo pairs are broadcasted as ROS image topics
+
+Publishes: 
 
 - `/camera/left/image_raw`
 - `/camera/right/image_raw`
 
----
-
-**stereo_depth_node.py**
+### **stereo_depth_node.py**
 
 Subscribes to:
 
@@ -49,9 +50,7 @@ Publishes:
 - `/stereo/disparity`– visual disparity map
 - `/stereo/depth_map` – floating-point depth values
 
----
-
-**yolo_detector_node.py**
+### **yolo_detector_node.py**
 
 Subscribes to:
 
@@ -68,9 +67,7 @@ Publishes:
 
 - `/detected_objects_3d`: list of object classes with 3D coordinates
 
----
-
-**warning_node.py**
+### **warning_node.py**
 
 Subscribes to:
 - `/detected_objects_3d` (YOLO detections)
