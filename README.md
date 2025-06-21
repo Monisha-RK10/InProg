@@ -20,64 +20,61 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 >
 > In case,you need better mapping technique, please consider my earlier project [Real-Time Multi-Object Tracking on KITTI with ROS 2, YOLOv8 & BYTETrack] (https://github.com/Monisha-RK10/Real-Time-Multi-Object-Tracking-on-KITTI-with-ROS-2-YOLOv8-BYTETrack), where I implemented cyclist filter.
 
----
 ## Pipeline Overview
 
 ### **stereo_image_publisher.py**
 
-KITTI stereo pairs are broadcasted as ROS image topics
+Publishes KITTI stereo images as ROS 2 topics.
 
 - Publishes: 
-
   - `/camera/left/image_raw`
   - `/camera/right/image_raw`
+
+---
 
 ### **stereo_depth_node.py**
 
 - Subscribes to:
-
   - `/camera/left/image_raw`
   - `/camera/right/image_raw`
 
 - Processes:
-
-  - Computes disparity map using OpenCV’s block matcher
-  - Uses camera calibration to compute depth map
-  - Constructs 3D point cloud using the Q matrix
+  - Computes disparity map using OpenCV’s StereoBM or StereoSGBM
+  - Applies camera calibration (fx, baseline, cx, cy) to compute depth
+  - Reprojects disparity into 3D using the Q matrix
 
 - Publishes:
+  - `/stereo/disparity` – color-mapped disparity image
+  - `/stereo/depth_map` – per-pixel depth (in meters)
+  - `/stereo/point_3d` – 3D point map (optional for internal use)
 
-  - `/stereo/disparity`– visual disparity map
-  - `/stereo/depth_map` – floating-point depth values
+---
 
 ### **yolo_detector_node.py**
 
 - Subscribes to:
-
-  - `/camera/left/image_raw (for object detection)`
+  - `/camera/left/image_raw` (for detection)
+  - `/stereo/point_3d` (optional: for real-world depth lookup)
 
 - Processes:
-
-  - Runs YOLOv8 detection on the left image
-  - For each detection, extracts 2D center point
-  - Queries point_3d map to get (X, Y, Z) real-world position
-  - Filters invalid depth (Z=0 or below threshold)
+  - Runs YOLOv8 on the left image to detect objects (cars, pedestrians, etc.)
+  - Computes 2D bounding box center for each detection
+  - Looks up corresponding (X, Y, Z) from point_3d map
+  - Filters out detections with invalid depth (Z=0 or Z < threshold)
 
 - Publishes:
+  - `/detected_objects_3d`: list of `[class, confidence, X, Y, Z]`
 
-  - `/detected_objects_3d`: list of object classes with 3D coordinates
+---
 
 ### **warning_node.py**
 
 - Subscribes to:
-  - `/detected_objects_3d` (YOLO detections)
-  - `/stereo/depth_map` (3D point map)
+  - `/detected_objects_3d`
 
 - Processes: 
-  - Extract 3D positions of detected object centers
-  - Apply thresholding to trigger proximity warnings
-  
-- Publishes:
+  - Checks 3D distances (Z coordinate) against safety thresholds
+  - Triggers proximity alerts based on object type (e.g., person < 3m, car < 5m)
 
-  - `/3d_warning` or `/proximity_alerts`
----
+- Publishes:
+  - `/proximity_alerts` or `/3d_warning`: visual markers or text alerts (e.g., for RViz or log display)
