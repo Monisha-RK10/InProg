@@ -18,7 +18,7 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 
 > Note: Person (coco) is mapped to Cyclist (kitti) for visual purpose. This is fine for now because this project does not consider evaluation with MOT/IoU.
 >
-> In case, you need better mapping technique, please consider my earlier project [Real-Time Multi-Object Tracking on KITTI with ROS 2, YOLOv8 & BYTETrack](https://github.com/Monisha-RK10/Real-Time-Multi-Object-Tracking-on-KITTI-with-ROS-2-YOLOv8-BYTETrack), where I implemented cyclist filter.
+> For better class mapping technique, please refer to my earlier project [Real-Time Multi-Object Tracking on KITTI with ROS 2, YOLOv8 & BYTETrack](https://github.com/Monisha-RK10/Real-Time-Multi-Object-Tracking-on-KITTI-with-ROS-2-YOLOv8-BYTETrack), where I implemented cyclist filter.
 
 ## Pipeline Overview
 
