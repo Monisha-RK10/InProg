@@ -23,10 +23,13 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 ## Pipeline Overview
 
 **stereo_image_publisher.py**
+
 Publishes: KITTI stereo pairs are broadcasted as ROS image topics
 
 - `/camera/left/image_raw`
 - `/camera/right/image_raw`
+
+---
 
 **stereo_depth_node.py**
 
@@ -46,6 +49,8 @@ Publishes:
 - `/stereo/disparity`– visual disparity map
 - `/stereo/depth_map` – floating-point depth values
 
+---
+
 **yolo_detector_node.py**
 
 Subscribes to:
@@ -63,6 +68,8 @@ Publishes:
 
 - `/detected_objects_3d`: list of object classes with 3D coordinates
 
+---
+
 **warning_node.py**
 
 Subscribes to:
@@ -76,3 +83,4 @@ Processes:
 Publishes:
 
 - `/3d_warning` or `/proximity_alerts`
+---
