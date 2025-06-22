@@ -1,23 +1,22 @@
-# Step 1: This code does the following:
-# Class Mapping: Map YOLO class names (person, car) to KITTI labels (Pedestrian, Car)
-# Stereo Setup: Set Stereo parameters such as minDisparity, numDisparities, blockSize, P1, P2, speckleWindowSize, etc.
-# Disparity Calculation: Use StereoSGBM setup to compute pixel disparity between left/right grayscale stereo pair.
-# Depth Estimation:
-# fx * Baseline/disparity
-# Extract fx from P2 using KITTI calib file, projection matrices P2, P3 project a 3D world point X = [x, y, z, 1]T into 2D image point using pixel = P.X 
+# Step 2: This code does the following:
+# Subscription: Subscribe to KITTI stereo images.
+# Stereo setup: Set Stereo parameters such as minDisparity, numDisparities, blockSize, P1, P2, speckleWindowSize, etc.
+# fx and baseline:
+# Extracts fx from P2 using KITTI calib file. 
 # Compute baseline (B) using fx and Tx left & right. Tranform translation matrixes into meters by dividing by focal length in pixels to compute baseline.
+# Disparity: Compute disparity using Stereo parameters, left, and right gray images.
+# Depth: Compute depth map using fx, baseline, and disparity.
+# Q construction: Use images's center, baseline, and fx to construct Q.
+# Dense 3D Reconstruction (points_3D): Use disparity and Q to compute dense 3D points.
+# PointCloud2 for RViz: Sparse point cloud (points_3D), only where disparity was valid with shape (N, 3).
+# Dense 3D image for fusion with 2D detector: Keep the original image shape (H, W, 3) for points_3D for YOLO.
+points_3D
+# Note: 
 # Projection matrices P2, P3: Project a 3D world point X = [x, y, z, 1]T into 2D image point using pixel = P.X
-# Note: Only the horizontal translation (Tx) matters for depth.
+# Only the horizontal translation (Tx) matters for depth.
 # StereoSGBM assumes epipolar geometry is handled in preprocessing (rectification).
 # Rotation matrices are already absorbed into the rectification process.
 # Epipolar lines are horizontal. Cameras appear to be aligned (no rotation between them)
-# Q Matrix Creation: Use images's center, baseline, and fx to construct Q.
-# Dense 3D Reconstruction: Use disparity and Q to compute dense 3D points.
-# Filtering Invalid 3D Points: Mask out disparity = 0 or invalid points in points_3D.
-# YOLO Detection: Find boxes for objects like car, pedestrian on the left color images.
-# Map 2D Detections to 3D: Find X, Y, Z for detected box's center.
-# Overlayed 3D Info on Video: Visualize X, Y, Z values in video frames at 2 FPS.
-
 
 import rclpy
 from rclpy.node import Node
