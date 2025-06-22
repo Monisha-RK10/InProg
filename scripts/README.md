@@ -24,7 +24,7 @@ Publishes KITTI stereo images as ROS 2 topics.
   - Reprojects disparity into 3D using the Q matrix
 
 - Publishes:
-  - `/stereo/disparity_image` – normalized 8-bit disparity image for RViz and debugging
+  - `/stereo/disparity_image` – Normalized 8-bit disparity image for RViz and debugging
   - `/stereo/points_3d` – 3D point map for RViz (sparse points)
   - `/stereo/points_3d_dense` – Dense 3D image for fusion with YOLO
 ---
