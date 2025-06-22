@@ -10,7 +10,10 @@
 # Dense 3D Reconstruction (points_3D): Use disparity and Q to compute dense 3D points.
 # PointCloud2 for RViz: Sparse point cloud (points_3D), only where disparity was valid with shape (N, 3).
 # Dense 3D image for fusion with 2D detector: Keep the original image shape (H, W, 3) for points_3D for YOLO.
-points_3D
+# Publishes point cloud for Rviz.
+# Publishes point cloud for YOLO detections.
+# Publishes disparity for Rviz.
+
 # Note: 
 # Projection matrices P2, P3: Project a 3D world point X = [x, y, z, 1]T into 2D image point using pixel = P.X
 # Only the horizontal translation (Tx) matters for depth.
@@ -111,7 +114,7 @@ class StereoDepthNode(Node):
             [0, 0, 1 / self.baseline, 0]
         ])
 
-        points_3D = cv2.reprojectImageTo3D(disparity, Q)                                    # points_3D.shape = (375, 1242, 3)
+        points_3D = cv2.reprojectImageTo3D(disparity, Q)                                  # points_3D.shape = (375, 1242, 3)
 
         # PointCloud2 for RViz
         # Sparse point cloud, only where disparity was valid with shape (N, 3)
@@ -121,9 +124,9 @@ class StereoDepthNode(Node):
         self.pub_points3d.publish(cloud_msg)
 
         # Dense 3D image for fusion with 2D detector
-        # keeps the original image shape (H, W, 3), lookup any pixel coordinate [u, v] directly and get [X, Y, Z]
+        # Keeps the original image shape (H, W, 3), lookup any pixel coordinate [u, v] directly and get [X, Y, Z]
         points_3D_img = points_3D.astype(np.float32)
-        dense_msg = self.bridge.cv2_to_imgmsg(points_3D_img, encoding='32FC3')  # 3 channels float32
+        dense_msg = self.bridge.cv2_to_imgmsg(points_3D_img, encoding='32FC3')            # 3 channels float32
         dense_msg.header = header
         self.pub_points3d_dense.publish(dense_msg)
 
