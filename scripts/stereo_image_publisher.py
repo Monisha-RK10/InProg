@@ -1,3 +1,5 @@
+# Step 1: Publish left (reference) and right (for disparity) Stereo KITTI frames.
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
