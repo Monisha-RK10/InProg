@@ -82,6 +82,6 @@ Publishes KITTI stereo images as ROS 2 topics.
 
 ## Sample Output Visualizations
 
-## Intermediate Output (Disparity)
+## Intermediate Output on Rviz (Disparity)
 
-<img src="output/disparity.png" width="1000"/>
+<img src="output/disparity.png" width="500"/>
