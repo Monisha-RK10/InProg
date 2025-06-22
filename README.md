@@ -79,3 +79,9 @@ Publishes KITTI stereo images as ROS 2 topics.
 
 - Publishes:
   - `/proximity_alerts` or `/3d_warning`: visual markers or text alerts (e.g., for RViz or log display)
+
+## Sample Output Visualizations
+
+## Intermediate Output (Disparity)
+
+<img src="output/disparity.png" width="1000"/>
