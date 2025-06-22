@@ -53,18 +53,17 @@ class StereoDepthNode(Node):
 
         # Stereo matcher
         self.stereo = cv2.StereoSGBM_create(
-            minDisparity=0,
-            numDisparities=128,
-            blockSize=5,
-            P1=8 * 3 * 5 ** 2,
-            P2=32 * 3 * 5 ** 2,
-            disp12MaxDiff=1,
-            uniquenessRatio=10,
-            speckleWindowSize=100,
-            speckleRange=32
+            minDisparity=0,                                                               # Start matching from 0-pixel shift (standard for rectified KITTI).
+            numDisparities=128,                                                           # Max disparity range to search, must be divisible by 16. Bigger = more depth range, slower.
+            blockSize=5,                                                                  # Size of matching window (odd number). Small -> sharp, sensitive.
+            P1=8 * 3 * 5 ** 2,                                                            # Penalty for small disparity changes (smoother surfaces).
+            P2=32 * 3 * 5 ** 2,                                                           # Penalty for larger disparity jumps (object boundaries). P2 > P1
+            disp12MaxDiff=1,                                                              # Check consistency between left -> right and right -> left disparity maps.
+            uniquenessRatio=10,                                                           # Reject matches too close in score to next-best match (helps accuracy).
+            speckleWindowSize=100,                                                        # Remove small isolated blobs (noise) in disparity map.
+            speckleRange=32                                                               # Max disparity variation within that speckle window.
         )
-
-
+        
         self.get_logger().info("Stereo depth node started.")
 
     def parse_calibration(self, path):
@@ -74,9 +73,9 @@ class StereoDepthNode(Node):
         P2 = [float(val) for val in lines[2].split()[1:]]
         P3 = [float(val) for val in lines[3].split()[1:]]
         fx = P2[0]
-        Tx_left = P2[3] / fx
+        Tx_left = P2[3] / fx                                                              # Pixel units to meters
         Tx_right = P3[3] / fx
-        baseline = abs(Tx_right - Tx_left)
+        baseline = abs(Tx_right - Tx_left)                                                # Usually Tx_left ≈ 0 and Tx_right ≈ -0.54 m, baseline = 0.54 m
         return fx, baseline
 
     def left_callback(self, msg):
