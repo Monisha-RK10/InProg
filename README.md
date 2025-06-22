@@ -1,4 +1,5 @@
 # Real-Time 3D-Aware Object Perception and Proximity Warning using Stereo Vision and YOLOv8
+
 # This Project is in Progress
 
 This project demonstrates a real-time pipeline for 3D-aware object detection by fusing stereo vision depth estimation with YOLOv8 2D detections, and publishing proximity alerts based on the reconstructed 3D coordinates of dynamic objects such as cars and cyclists.
@@ -7,6 +8,7 @@ The entire pipeline is built using ROS 2, runs on KITTI stereo image pairs, and 
 
 This project forms a key perception module useful in autonomous driving, robot navigation, and intelligent warning systems.
 
+---
 ## Learn the Theory (Optional)
 
 To deeply understand how camera geometry and 3D localization work, refer to my Medium series:
@@ -21,6 +23,15 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 >
 > For better class mapping technique, please refer to my earlier project [Real-Time Multi-Object Tracking on KITTI with ROS 2, YOLOv8 & BYTETrack](https://github.com/Monisha-RK10/Real-Time-Multi-Object-Tracking-on-KITTI-with-ROS-2-YOLOv8-BYTETrack), where I implemented cyclist filter.
 
+---
+
+## Dataset
+- **[KITTI Tracking Dataset](http://www.cvlibs.net/datasets/kitti/eval_tracking.php)**
+- Real-world driving scenes captured from a moving vehicle
+- Annotated bounding boxes for object categories like `Car`, `Pedestrian`, and `Cyclist`
+- Used `sequence 0000` for this project
+  
+----
 ## Pipeline Overview
 
 ### **stereo_image_publisher.py**
