@@ -1,4 +1,4 @@
-### Understanding How StereoSGBM Work
+### Understanding StereoSGBM
 
 StereoSGBM works by comparing patches (blocks of pixels) between the left and right image. It tries to find the best horizontal shift (disparity) where the two patches match best.
 
