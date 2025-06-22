@@ -118,14 +118,14 @@ class StereoDepthNode(Node):
         # Sparse point cloud, only where disparity was valid with shape (N, 3)
         mask = disparity > 0
         points = points_3D[mask]
-        cloud_msg = pc2.create_cloud_xyz32(header, points)
+        cloud_msg = pc2.create_cloud_xyz32(header, points)                                # create_cloud_xyz32(header, points) internally assigns msg.header = header
         self.pub_points3d.publish(cloud_msg)
 
         # Dense 3D image for fusion with 2D detector
         # Keeps the original image shape (H, W, 3), lookup any pixel coordinate [u, v] directly and get [X, Y, Z]
         points_3D_img = points_3D.astype(np.float32)
-        dense_msg = self.bridge.cv2_to_imgmsg(points_3D_img, encoding='32FC3')            # 3 channels float32
-        dense_msg.header = header
+        dense_msg = self.bridge.cv2_to_imgmsg(points_3D_img, encoding='32FC3')            # 3 channels float32, converts the numpy array to a ROS Image message.
+        dense_msg.header = header                                                         # Manually assign the header. An empty stamp and frame_id can cause issues for a) Synchronization, b) Frame transforms (e.g., TF), c) Accurate fusion with 2D detections (YOLO)
         self.pub_points3d_dense.publish(dense_msg)
 
         # Normalize disparity for visualization
