@@ -1,21 +1,20 @@
 # Step 2: This code does the following:
 # Subscription: Subscribe to KITTI stereo images.
-# Stereo setup: Set Stereo parameters such as minDisparity, numDisparities, blockSize, P1, P2, speckleWindowSize, etc.
-# fx and baseline:
+# Stereo Detup: Set Stereo parameters such as minDisparity, numDisparities, blockSize, P1, P2, speckleWindowSize, etc.
+# fx and Baseline:
 # Extracts fx from P2 using KITTI calib file. 
-# Compute baseline (B) using fx and Tx left & right. Tranform translation matrixes into meters by dividing by focal length in pixels to compute baseline.
-# Disparity: Compute disparity using Stereo parameters, left, and right gray images.
-# Depth: Compute depth map using fx, baseline, and disparity.
-# Q construction: Use images's center, baseline, and fx to construct Q.
-# Dense 3D Reconstruction (points_3D): Use disparity and Q to compute dense 3D points.
-# PointCloud2 for RViz: Sparse point cloud (points_3D), only where disparity was valid with shape (N, 3).
-# Dense 3D image for fusion with 2D detector: Keep the original image shape (H, W, 3) for points_3D for YOLO.
-# Publishes point cloud for Rviz.
-# Publishes point cloud for YOLO detections.
-# Publishes disparity for Rviz.
+# Compute baseline (B) using fx and Tx left & right. 
+# Disparity Computation: Compute disparity using Stereo parameters, left, and right gray images.
+# Depth Map Computation: Compute depth map using fx, baseline, and disparity.
+# Q Matrix Construction: Use images's center, baseline, and fx to construct Q. It reprojects disparity into 3D using known camera parameters.
+# 3D Points Reconstruction (points_3D): Use disparity and Q to compute dense 3D points of shape (H, W, 3) with X, Y, Z coordinates.
+# Publish PointCloud2 for RViz: Generate a sparse point cloud by filtering points_3D i.e., only where disparity is valid with shape (N, 3).
+# Publish Dense 3D Image for YOLO Fusion: Keeps the shape (H, W, 3) to enable 2D detectors (YOLO) to lookup 3D coordinates using [u, v] pixel positions.
+# Publish Disparity for RViz
 
 # Note: 
 # Projection matrices P2, P3: Project a 3D world point X = [x, y, z, 1]T into 2D image point using pixel = P.X
+# Tx in projection matrix is in pixel units. Dividing by fx gives real-world translation (in meters), allowing baseline computation.
 # Only the horizontal translation (Tx) matters for depth.
 # StereoSGBM assumes epipolar geometry is handled in preprocessing (rectification).
 # Rotation matrices are already absorbed into the rectification process.
