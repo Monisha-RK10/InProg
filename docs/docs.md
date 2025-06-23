@@ -88,3 +88,13 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 | Depth            | Depth map                | (H, W)    | –       | Camera plane  | Optional                  |
 | 3D Sparse (RViz) | `points_3D[mask]`        | (N, 3)    |  Yes    | Camera coords | `sensor_msgs/PointCloud2` |
 | 3D Dense         | `cv2.reprojectImageTo3D` | (H, W, 3) |  No     | Camera coords | `32FC3` image             |
+
+### Summary of Coordinates in the Pipeline (Including Intrinsic & Extrinsic Properties of Camera)
+
+| Stage                                | Coordinate Frame     | Uses Intrinsics? | Uses Extrinsics?  |
+| ------------------------------------ | -------------------- | ---------------- | ----------------- |
+| Input stereo image                   | Image frame          | –                | –                 |
+| Disparity map                        | Image plane (pixels) | –                | –                 |
+| RViz point cloud                     | Camera frame         | –                | –                 |
+| `cv2.reprojectImageTo3D` → 3D points | **Camera frame**     |   via Q          |   not world frame |
+| Warning system                       | Camera-relative      | –                | –                 |
