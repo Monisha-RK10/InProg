@@ -4,7 +4,7 @@
 - **Stereo SGBM & its Parameters** - This is used for computing disparity (d).
 - **Computing Depth & full 3D Manually** - Using f, b, and d.
 - **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Skips the calculation of depth & full 3D manually.
-- **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, & world frame.
+- **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, or world frame.
 - **Coordinate Frame in the Pipeline** - To understand at what stage, we use intrinsic & extrinsic properties of camera.
   
 ### Focal Length (f) & Baseline (b)
@@ -99,7 +99,7 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 
 
 ### Computing Depth & full 3D Manually 
-> Note: We can skip this step (calculating depth manually), as OpenCV supports `cv2.reprojectImageTo3D(disparity, Q)`.
+> Note: We can skip this step (calculating depth & full 3D manually), as OpenCV supports `cv2.reprojectImageTo3D(disparity, Q)`.
 
 Depth Calculation: `Z = (f.b)/d`, where f is focal length, b is baseline, and d is disparity
 
