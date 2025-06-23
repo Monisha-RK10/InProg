@@ -3,7 +3,7 @@
 - **Focal Length (f) & Baseline (b)** - These are useful for computing depth, 3D reconstruction.
 - **Stereo SGBM & its Parameters** - This is used for computing disparity (d).
 - **Computing Depth & full 3D Manually** - Using f, b, and d.
-- **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Help skips the calculation of depth & full 3D manually.
+- **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Skips the calculation of depth & full 3D manually.
 - **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, & world frame.
 - **Coordinate Frame in the Pipeline** - To understand at what stage, we use intrinsic & extrinsic properties of camera.
   
