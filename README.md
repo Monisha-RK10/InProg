@@ -50,9 +50,9 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
   - To 3D point cloud using Q matrix
 
 - Publishes:
-- `/stereo/disparity_image`
-- `/stereo/points_3d`
-- `/stereo/points_3d_dense`
+  - `/stereo/disparity_image`
+  - `/stereo/points_3d`
+  - `/stereo/points_3d_dense`
 
 `object_fusion_warning_node.py`
 - Subscribes to:
@@ -72,8 +72,8 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 ---
 
-## Sample Output Visualizations
+## Sample Output 
 
-### Intermediate Output on Rviz (Disparity)
+### Intermediate Output (Rviz Disparity Image)
 
 <img src="output/disparity.png" width="500"/>
