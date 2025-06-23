@@ -63,7 +63,7 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
   - YOLOv8 detection (`car`, `person` mapped to `Car`, `Cyclist`)
   - 3D coordinate extraction via center pixel or 3×3 patch median
   - Filters out invalid or far objects (Z ≤ 0 or Z > 80 m)
-  - Triggers a proximity warning (**ACHTUNG!!!**) if Z < 8 m
+  - Triggers a proximity warning (**⚠️ACHTUNG!!!**) if Z < 8 m
   - Displays color-coded boxes:
     - 🔴 Red: Near (<8 m)
     - 🟡 Yellow: Medium (8–30 m)
