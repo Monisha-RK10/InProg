@@ -62,6 +62,8 @@ Publishes KITTI stereo images as ROS 2 topics.
 
 ### **yolo_detector_node.py**
 
+YOLO node handles detection + 3D fusion (perception)
+
 - Subscribes to:
   - `/camera/left/image_raw` (for detection)
   - `/stereo/point_3d` (optional: for real-world depth lookup)
@@ -78,6 +80,8 @@ Publishes KITTI stereo images as ROS 2 topics.
 ---
 
 ### **warning_node.py**
+
+Warning node does decision-making (safety logic)
 
 - Subscribes to:
   - `/detected_objects_3d`
