@@ -29,20 +29,24 @@ Publishes KITTI stereo images as ROS 2 topics.
   - `/stereo/points_3d_dense` – Dense 3D image for fusion with YOLO
 ---
 
-### **yolo_detector_node.py**
+### **object_fusion_warning_node.py**
 
-YOLO node handles detection + 3D fusion (perception) + decision making (proximity warning)
+Handles detection, 3D fusion, and warning generation in one node.
 
 - Subscribes to:
-  - `/camera/left/image_raw` (for detection)
-  - `/stereo/points_3d_dense` (it has X, Y, Z information)
+  - `/camera/left/image_raw` – for YOLO object detection
+  - `/stereo/points_3d_dense` – for (X, Y, Z) lookup of detected objects
 
 - Processes:
-  - Runs YOLOv8 on the left image to detect objects (cars, persons, etc.)
-  - Maps COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes
-  - Computes 2D bounding box center for each detection
-  - Looks up corresponding (X, Y, Z) from `point_3d` dense for either center or 3x3 median patch
-  - Filters out detections with invalid or too far depth (Z <= 0 or z > 80)
-  - Visualize the color-coded distance and if the depth < 8m, send the warning signal (Achtung!!!).
+  - YOLOv8 detection on left camera image (car, person -> mapped to KITTI classes)
+  - For each 2D bounding box, extracts 3D coordinates using center pixel or 3×3 patch median
+  - Filters out invalid or far detections (Z <= 0 or Z > 80)
+  - Displays bounding boxes and 3D coordinates on the image
+  - **Triggers a warning** (`ACHTUNG!!!`) overlay when object is within < 8 meters
+  - Uses color-coded boxes (Red = near, Yellow = mid, Green = far)
+
+- Visualization:
+  - Live annotated detection image with 3D info (`cv2.imshow(...)`)
+
 
 ---
