@@ -6,6 +6,7 @@
 - **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Skips the calculation of depth & full 3D manually.
 - **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, or world frame.
 - **Coordinate Frame in the Pipeline** - To understand at what stage, we use intrinsic & extrinsic properties of camera.
+- **Center Pixel vs 3x3 Median Patch** - Two different ways to consider deoth for the detected object.
   
 ### Focal Length (f) & Baseline (b)
 
@@ -140,3 +141,24 @@ where `(u, v)`: pixel, `(cx, cy)`: principle point x, y, `Z`: depth, and `f`: fo
 - All 3D points are computed in the left camera frame.
 - Disparity is computed with respect to the left image (as reference), and the reprojected 3D points (X, Y, Z) represent real-world positions relative to the left camera's optical center.
 - Depth Z increases forward, X is right-left, Y is up-down.
+
+### Center Pixel vs 3x3 Median Patch (Depth Calculation)
+
+| Aspect                       | **Center Pixel** (`depth[v, u]`)     | **3x3 Median Patch**                              |
+| ---------------------------- | ------------------------------------ | ------------------------------------------------- |
+| **Speed**                    | Very fast                            | Slightly slower (reads 9 values, filters, median) |
+| **Simplicity**               | Easiest to implement                 | Slightly more logic                               |
+| **Robustness to Noise**      | Bad: 1 noisy pixel -> bad depth      | Good: median ignores outliers                     |
+| **Handling Missing/Invalid** | Fails if center is NaN               | Patch gives more chance to find valid data        |
+| **Edge/Corners**             | Can access invalid or missing values | Can also be tricky, especially at borders         |
+
+**When to Use**
+
+**Center Pixel**
+- When depth image is very clean (e.g., synthetic or high-quality sensor)
+- If real-time speed and simplicity are priority
+
+**Median Patch**
+- For Real-world stereo depth, where noise, outliers, or NaNs are common
+- When Object borders may have broken depth -> median helps
+- For robust 3D position for downstream logic (e.g., warnings, planning)
