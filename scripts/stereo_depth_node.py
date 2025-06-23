@@ -112,7 +112,7 @@ class StereoDepthNode(Node):
             [0, 0, 1 / self.baseline, 0]
         ])
 
-        points_3D = cv2.reprojectImageTo3D(disparity, Q)                                  # Camera coordinate system: 3D coordinates (X, Y, Z) at every pixel (u, v). Output shape: (H, W, 3)
+        points_3D = cv2.reprojectImageTo3D(disparity, Q)                                  # Camera coordinate system (wrt left camera's origin): 3D coordinates (X, Y, Z) at every pixel (u, v). Output shape: (H, W, 3)
 
         # PointCloud2 for RViz
         # Sparse point cloud, only where disparity was valid with shape (N, 3)
