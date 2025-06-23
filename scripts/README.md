@@ -28,3 +28,23 @@ Publishes KITTI stereo images as ROS 2 topics.
   - `/stereo/points_3d` – 3D point map for RViz (sparse points)
   - `/stereo/points_3d_dense` – Dense 3D image for fusion with YOLO
 ---
+
+### **yolo_detector_node.py**
+
+YOLO node handles detection + 3D fusion (perception)
+
+- Subscribes to:
+  - `/camera/left/image_raw` (for detection)
+  - `/stereo/points_3d_dense` (it has X, Y, Z information)
+
+- Processes:
+  - Runs YOLOv8 on the left image to detect objects (cars, pedestrians, etc.)
+  - Maps COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes
+  - Computes 2D bounding box center for each detection
+  - Looks up corresponding (X, Y, Z) from point_3d dense for either center or 3x3 median patch
+  - Filters out detections with invalid or too far depth (Z=0 or Z < threshold or z > 80)
+
+- Publishes:
+  - `/yolo3d_detections`: list of `[class, X, Y, Z]`
+
+---
