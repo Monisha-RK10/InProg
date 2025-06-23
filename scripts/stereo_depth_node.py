@@ -96,13 +96,13 @@ class StereoDepthNode(Node):
         header.stamp = self.get_clock().now().to_msg()
         header.frame_id = "camera"
 
-        # Step 1: Compute disparity
+        # Compute disparity
         disparity = self.stereo.compute(imgL_gray, imgR_gray).astype(np.float32) / 16.0   # Image plane: each pixel stores disparity (in pixels). Output shape: (H, W) same as input images. 
 
-        # Step 2: Compute depth
+        # Compute depth
         depth_map = (self.fx * self.baseline) / (disparity + 1e-6)
 
-        # Step 3: Reproject to 3D
+        # Reproject to 3D
         h, w = imgL_gray.shape
         cx, cy = w / 2, h / 2
         Q = np.float32([
