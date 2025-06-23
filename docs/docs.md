@@ -1,12 +1,21 @@
-### Understanding focal length, image center, and baseline
+## Useful Concepts to Understand the Project Flow
+
+- **Focal Length (f) & Baseline (b)** - These are useful for computing depth, 3D reconstruction.
+- **Stereo SGBM & its Parameters** - This is used for computing disparity (d).
+- **Computing Depth & full 3D Manually** - Using f, b, and d.
+- **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Help skips the calculation of depth & full 3D manually.
+- **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, & world frame.
+- **Coordinate Frame in the Pipeline** - To understand at what stage, we use intrinsic & extrinsic properties of camera.
+  
+### Focal Length (f) & Baseline (b)
 
 | Term                          | Meaning                                    | Unit                        |
 | ----------------------------- | ------------------------------------------ | --------------------------- |
-| **Focal length** `fx`          | Distance from camera center to image plane | pixels (in computer vision) |
+| **Focal length** `f`          | Distance from camera center to image plane | pixels (in computer vision) |
 | **Image center** `(c_x, c_y)` | Where optical axis hits image plane        | pixels                      |
 | **Baseline** `b`              | Distance between left/right camera centers | meters or mm                |
 
-### Understanding StereoSGBM
+### Stereo SGBM & its Parameters
 
 StereoSGBM works by comparing patches (blocks of pixels) between the left and right image. It tries to find the best horizontal shift (disparity) where the two patches match best.
 
@@ -89,16 +98,19 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
     This patch is removed (set to -1 in disparity map).
 
 
-### Depth 
+### Computing Depth & full 3D Manually 
 > Note: We can skip this step (calculating depth manually), as OpenCV supports `cv2.reprojectImageTo3D(disparity, Q)`.
 
-Depth Calculation: `Z = (fx.b)/d`, where fx is focal length, b is baseline, and d is disparity
+Depth Calculation: `Z = (f.b)/d`, where f is focal length, b is baseline, and d is disparity
 
 So depth is accurate when you know:
 
 - How zoomed-in the cameras are (`focal length`)
 - How far apart the cameras are (`baseline`)
 - How much the object shifted between left/right (`disparity`)
+
+Once depth (Z) is calculated, the full 3D point in left camera frame is
+ X = (u-cx).Z/f, Y = (u-cy).Z/f
 
 ### Disparity vs Depth vs 3D (Sparse + Dense)
 
@@ -109,7 +121,7 @@ So depth is accurate when you know:
 | 3D Sparse (RViz) | `points_3D[mask]`        | (N, 3)    |  Yes    | Camera coords | `sensor_msgs/PointCloud2` |
 | 3D Dense         | `cv2.reprojectImageTo3D` | (H, W, 3) |  No     | Camera coords | `32FC3` image             |
 
-### Summary of Coordinates in the Pipeline (Including Intrinsic & Extrinsic Properties of Camera)
+### Coordinate Frame in the Pipeline
 
 | Stage                                | Coordinate Frame     | Uses Intrinsics? | Uses Extrinsics?  |
 | ------------------------------------ | -------------------- | ---------------- | ----------------- |
