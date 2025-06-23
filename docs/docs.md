@@ -98,3 +98,8 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 | RViz point cloud                     | Camera frame         | –                | –                 |
 | `cv2.reprojectImageTo3D` → 3D points | **Camera frame**     |   via Q          |   not world frame |
 | Warning system                       | Camera-relative      | –                | –                 |
+
+**Coordinate Frame**
+- All 3D points are computed in the left camera frame.
+- Disparity is computed with respect to the left image (as reference), and the reprojected 3D points (X, Y, Z) represent real-world positions relative to the left camera's optical center.
+- Depth Z increases forward, X is right-left, Y is up-down.
