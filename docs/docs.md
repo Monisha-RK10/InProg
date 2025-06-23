@@ -79,3 +79,12 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
      - speckleRange=32 -> the difference from 50 to 90 is too large
     
     This patch is removed (set to -1 in disparity map).
+
+### Disparity vs Depth vs 3D (Sparse + Dense)
+
+| Stage            | Output                   | Shape     | Masked? | Plane         | ROS Format                |
+| ---------------- | ------------------------ | --------- | ------- | ------------- | ------------------------- |
+| Disparity        | Disparity map            | (H, W)    | –       | Image plane   | `mono16` or `float32`     |
+| Depth            | Depth map                | (H, W)    | –       | Camera plane  | Optional                  |
+| 3D Sparse (RViz) | `points_3D[mask]`        | (N, 3)    |  Yes    | Camera coords | `sensor_msgs/PointCloud2` |
+| 3D Dense         | `cv2.reprojectImageTo3D` | (H, W, 3) |  No     | Camera coords | `32FC3` image             |
