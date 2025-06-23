@@ -2,11 +2,9 @@
 
 # This Project is in Progress
 
-This project demonstrates a real-time pipeline for 3D-aware object detection by fusing stereo vision depth estimation with YOLOv8 2D detections, and publishing proximity alerts based on the reconstructed 3D coordinates of dynamic objects such as cars and cyclists.
+This project demonstrates a real-time pipeline for 3D-aware object detection by fusing stereo vision depth estimation with YOLOv8 2D detections. It reconstructs object positions in the left camera’s 3D coordinate frame, enabling accurate distance-based alerts for dynamic objects like cars and cyclists.
 
-The entire pipeline is built using ROS 2, runs on KITTI stereo image pairs, and leverages camera calibration files to convert disparity into real-world 3D coordinates.
-
-This project forms a key perception module useful in autonomous driving, robot navigation, and intelligent warning systems.
+The pipeline runs on KITTI stereo image pairs using ROS 2, and leverages camera calibration files (intrinsics, baseline) to convert disparity into metric-scaled 3D coordinates. This forms a key perception module useful in autonomous driving, robot navigation, and intelligent warning systems.
 
 ---
 ## Learn the Theory (Optional)
