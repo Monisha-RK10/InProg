@@ -1,3 +1,14 @@
+Step 3: The code does the following:
+# Subscribe to left camera image and depth (3D points) topics from KITTI.
+# Set a confidence threshold for YOLO detections.
+# Map COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes.
+# Run YOLO detection on the left image.
+# For each detected bounding box:
+# Compute the center pixel coordinates (u, v).
+# Extract depth points around (u, v) either: Center pixel only, or 3x3 patch median (current approach).
+# Use median of valid points from the patch to get a single robust 3D coordinate (X, Y, Z)
+# Publish this 3D point as a single PointStamped message for downstream ROS nodes.
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
