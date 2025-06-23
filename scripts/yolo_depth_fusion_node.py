@@ -81,10 +81,6 @@ class YoloDepthFusionNode(Node):
                     continue
                 X, Y, Z = np.median(patch, axis=0)                                                                # Calculate the median X, Y, Z coordinates from the patch.
 
-python
-Copy
-Edit
-
             else:
                 X, Y, Z = depth[v, u]
                 if not np.isfinite(Z) or Z <= 0:
