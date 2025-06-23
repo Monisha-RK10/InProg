@@ -7,7 +7,9 @@
 - **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, or world frame.
 - **Coordinate Frame in the Pipeline** - To understand at what stage, we use intrinsic & extrinsic properties of camera.
 - **Center Pixel vs 3x3 Median Patch** - Two different ways to consider deoth for the detected object.
-  
+
+---
+
 ### Focal Length (f) & Baseline (b)
 
 | Term                          | Meaning                                    | Unit                        |
@@ -15,6 +17,8 @@
 | **Focal length** `f`          | Distance from camera center to image plane | pixels (in computer vision) |
 | **Image center** `(c_x, c_y)` | Where optical axis hits image plane        | pixels                      |
 | **Baseline** `b`              | Distance between left/right camera centers | meters or mm                |
+
+---
 
 ### Stereo SGBM & its Parameters
 
@@ -97,7 +101,7 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
      - speckleRange=32 -> the difference from 50 to 90 is too large
     
     This patch is removed (set to -1 in disparity map).
-
+---
 
 ### Computing Depth & full 3D Manually 
 > Note: We can skip this step (calculating depth & full 3D manually), as OpenCV supports `cv2.reprojectImageTo3D(disparity, Q)`.
@@ -118,6 +122,8 @@ Once depth (Z) is calculated, the full 3D point in left camera frame is
 
 where `(u, v)`: pixel, `(cx, cy)`: principle point x, y, `Z`: depth, and `f`: focal length
 
+---
+
 ### Disparity vs Depth vs 3D (Sparse + Dense)
 
 | Stage            | Output                   | Shape     | Masked? | Plane         | ROS Format                |
@@ -126,6 +132,8 @@ where `(u, v)`: pixel, `(cx, cy)`: principle point x, y, `Z`: depth, and `f`: fo
 | Depth            | Depth map                | (H, W)    | –       | Camera plane  | Optional                  |
 | 3D Sparse (RViz) | `points_3D[mask]`        | (N, 3)    |  Yes    | Camera coords | `sensor_msgs/PointCloud2` |
 | 3D Dense         | `cv2.reprojectImageTo3D` | (H, W, 3) |  No     | Camera coords | `32FC3` image             |
+
+---
 
 ### Coordinate Frame in the Pipeline
 
@@ -141,6 +149,8 @@ where `(u, v)`: pixel, `(cx, cy)`: principle point x, y, `Z`: depth, and `f`: fo
 - All 3D points are computed in the left camera frame.
 - Disparity is computed with respect to the left image (as reference), and the reprojected 3D points (X, Y, Z) represent real-world positions relative to the left camera's optical center.
 - Depth Z increases forward, X is right-left, Y is up-down.
+
+---
 
 ### Center Pixel vs 3x3 Median Patch (Depth Calculation)
 
@@ -162,3 +172,5 @@ where `(u, v)`: pixel, `(cx, cy)`: principle point x, y, `Z`: depth, and `f`: fo
 - For Real-world stereo depth, where noise, outliers, or NaNs are common
 - When Object borders may have broken depth -> median helps
 - For robust 3D position for downstream logic (e.g., warnings, planning)
+
+---
