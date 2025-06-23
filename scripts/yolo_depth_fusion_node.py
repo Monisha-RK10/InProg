@@ -9,6 +9,11 @@
 # Use median of valid points from the patch to get a single robust 3D coordinate (X, Y, Z)
 # Publish this 3D point as a single PointStamped message for downstream ROS nodes.
 
+# Note:
+# ROS topics usually publish messages asynchronously, I have forced the node to wait for the next 'new pair' of messages before running inference again
+# to avoid repeatedly use the same outdated data. 
+# To make it more robust, add timestamps or message synchronization to better pair the image and depth frames.
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
@@ -114,7 +119,7 @@ class YoloDepthFusionNode(Node):
             self.detection_pub.publish(pt)
 
         # Reset
-        self.latest_image = None
+        self.latest_image = None                                                                                 # Forces the node to wait for the next 'new pair' of messages before running inference again. To avoid repeatedly use the same outdated data. 
         self.latest_depth = None
 
 
