@@ -38,7 +38,7 @@ YOLO node handles detection + 3D fusion (perception)
   - `/stereo/points_3d_dense` (it has X, Y, Z information)
 
 - Processes:
-  - Runs YOLOv8 on the left image to detect objects (cars, pedestrians, etc.)
+  - Runs YOLOv8 on the left image to detect objects (cars, persons, etc.)
   - Maps COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes
   - Computes 2D bounding box center for each detection
   - Looks up corresponding (X, Y, Z) from point_3d dense for either center or 3x3 median patch
