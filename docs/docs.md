@@ -110,7 +110,12 @@ So depth is accurate when you know:
 - How much the object shifted between left/right (`disparity`)
 
 Once depth (Z) is calculated, the full 3D point in left camera frame is
- X = (u-cx).Z/f, Y = (u-cy).Z/f
+
+ `X = (u-cx).Z/f`, 
+ 
+ `Y = (u-cy).Z/f`
+
+where (u, v): pixel, (cx, cy): principle point x, y, Z: depth, and f: focal length
 
 ### Disparity vs Depth vs 3D (Sparse + Dense)
 
