@@ -89,7 +89,9 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
     This patch is removed (set to -1 in disparity map).
 
 
-### Depth
+### Depth 
+> Note: We can skip this step (calculating depth manually), as OpenCV supports `cv2.reprojectImageTo3D(disparity, Q)`.
+
 Depth Calculation: `Z = (fx.b)/d`, where fx is focal length, b is baseline, and d is disparity
 
 So depth is accurate when you know:
