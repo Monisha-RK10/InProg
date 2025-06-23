@@ -1,4 +1,4 @@
-Step 3: The code does the following:
+# Step 3: The code does the following:
 # Subscribe to left camera image and depth (3D points) topics from KITTI.
 # Set a confidence threshold for YOLO detections.
 # Map COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes.
