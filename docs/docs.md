@@ -1,3 +1,11 @@
+### Understanding focal length, image center, and baseline
+
+| Term                          | Meaning                                    | Unit                        |
+| ----------------------------- | ------------------------------------------ | --------------------------- |
+| **Focal length** `fx`          | Distance from camera center to image plane | pixels (in computer vision) |
+| **Image center** `(c_x, c_y)` | Where optical axis hits image plane        | pixels                      |
+| **Baseline** `b`              | Distance between left/right camera centers | meters or mm                |
+
 ### Understanding StereoSGBM
 
 StereoSGBM works by comparing patches (blocks of pixels) between the left and right image. It tries to find the best horizontal shift (disparity) where the two patches match best.
@@ -79,6 +87,16 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
      - speckleRange=32 -> the difference from 50 to 90 is too large
     
     This patch is removed (set to -1 in disparity map).
+
+
+### Depth
+Depth Calculation: `Z = (fx.b)/d`, where fx is focal length, b is baseline, and d is disparity
+
+So depth is accurate when you know:
+
+- How zoomed-in the cameras are (`focal length`)
+- How far apart the cameras are (`baseline`)
+- How much the object shifted between left/right (`disparity`)
 
 ### Disparity vs Depth vs 3D (Sparse + Dense)
 
