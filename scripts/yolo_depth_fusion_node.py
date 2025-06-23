@@ -11,7 +11,7 @@
 
 # Note:
 # ROS topics usually publish messages asynchronously, I have forced the node to wait for the next 'new pair' of messages before running inference again
-# to avoid repeatedly use the same outdated data. 
+# to avoid repeatedly using the same outdated data. 
 # To make it more robust, add timestamps or message synchronization to better pair the image and depth frames.
 
 import rclpy
