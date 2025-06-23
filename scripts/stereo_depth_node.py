@@ -97,7 +97,7 @@ class StereoDepthNode(Node):
         header.frame_id = "camera"
 
         # Step 1: Compute disparity
-        disparity = self.stereo.compute(imgL_gray, imgR_gray).astype(np.float32) / 16.0   # disparity.shape = (375, 1242)
+        disparity = self.stereo.compute(imgL_gray, imgR_gray).astype(np.float32) / 16.0   # Image plane: each pixel stores disparity (in pixels). Output shape: (H, W) same as input images. 
 
         # Step 2: Compute depth
         depth_map = (self.fx * self.baseline) / (disparity + 1e-6)
@@ -112,7 +112,7 @@ class StereoDepthNode(Node):
             [0, 0, 1 / self.baseline, 0]
         ])
 
-        points_3D = cv2.reprojectImageTo3D(disparity, Q)                                  # points_3D.shape = (375, 1242, 3)
+        points_3D = cv2.reprojectImageTo3D(disparity, Q)                                  # Camera coordinate system: 3D coordinates (X, Y, Z) at every pixel (u, v). Output shape: (H, W, 3)
 
         # PointCloud2 for RViz
         # Sparse point cloud, only where disparity was valid with shape (N, 3)
