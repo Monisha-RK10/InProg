@@ -32,31 +32,18 @@ To deeply understand how camera geometry and 3D localization work, refer to my M
 ----
 ## Pipeline Overview
 
-### **stereo_image_publisher.py**
-
-Publishes KITTI stereo images as ROS 2 topics.
-
-- Publishes: 
-  - `/camera/left/image_raw`
-  - `/camera/right/image_raw`
-
----
-
-### **stereo_depth_node.py**
-
-- Subscribes to:
-  - `/camera/left/image_raw`
-  - `/camera/right/image_raw`
-
-- Processes:
-  - Computes disparity map using OpenCV’s StereoBM or StereoSGBM
-  - Applies camera calibration (fx, baseline, cx, cy) to compute depth
-  - Reprojects disparity into 3D using the Q matrix
-
-- Publishes:
-  - `/stereo/disparity` – color-mapped disparity image
-  - `/stereo/depth_map` – per-pixel depth (in meters)
-  - `/stereo/point_3d` – 3D point map (optional for internal use)
+- `stereo_image_publisher.py`
+  - Publish KITTI stereo images as ROS 2 topics.
+- `stereo_depth_node.py`
+  - Subscribe to  KITTI stereo (left + right) images from `stereo_image_publisher.py`
+  - Compute disparity map and depth using OpenCV’s StereoSGBM and camera calibration (fx, baseline, cx, cy)
+  - Reproject disparity into 3D using the Q matrix
+  - Publish disparity, 3D point map (sparse for Rviz + dense for detector)
+- `object_fusion_warning_node.py`
+  - Subscribe to left image and 3D point map from `stereo_image_publisher.py` and `stereo_depth_node.py`
+  - Perform YOLOv8 detection, extract 3D coordinates using center pixel or 3×3 patch median for detected boxes
+  - Filter out invalid or far detections (Z <= 0 or Z > 80) and trigger a warning (ACHTUNG!!!) when object is within < 8 meters
+  - Uses color-coded boxes (Red = near, Yellow = mid, Green = far)
 
 ---
 
