@@ -74,7 +74,7 @@ class YoloDepthFusionNode(Node):
                 continue
 
             if self.use_patch:
-                patch = depth[v - 1:v + 2, u - 1:u + 2, :]                                                        # Extract a 3x3 patch of depth points around center pixel.
+                patch = depth[v - 1:v + 2, u - 1:u + 2, :]                                                        # Extract a 3x3 patch of depth points around center pixel. First index (v-1:v+2) is along rows -> height. Second index (u-1:u+2) is along columns -> width. If (u, v) = (100, 50), then patch = depth[rows=height=49:52, columns=width = 99:102, :]
                 patch = patch.reshape(-1, 3)                                                                      # Flatten the patch into a list of 3D points.
                 patch = patch[np.all(np.isfinite(patch), axis=1)]                                                 # Filter out any invalid (non-finite) points.
                 if len(patch) == 0:                                                                               # If no valid points remain, skip this detection.
