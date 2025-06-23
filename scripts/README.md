@@ -41,7 +41,7 @@ YOLO node handles detection + 3D fusion (perception)
   - Runs YOLOv8 on the left image to detect objects (cars, persons, etc.)
   - Maps COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes
   - Computes 2D bounding box center for each detection
-  - Looks up corresponding (X, Y, Z) from point_3d dense for either center or 3x3 median patch
+  - Looks up corresponding (X, Y, Z) from `point_3d` dense for either center or 3x3 median patch
   - Filters out detections with invalid or too far depth (Z=0 or Z < threshold or z > 80)
 
 - Publishes:
