@@ -31,7 +31,7 @@ Publishes KITTI stereo images as ROS 2 topics.
 
 ### **yolo_detector_node.py**
 
-YOLO node handles detection + 3D fusion (perception)
+YOLO node handles detection + 3D fusion (perception) + decision making (proximity warning)
 
 - Subscribes to:
   - `/camera/left/image_raw` (for detection)
@@ -42,9 +42,7 @@ YOLO node handles detection + 3D fusion (perception)
   - Maps COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes
   - Computes 2D bounding box center for each detection
   - Looks up corresponding (X, Y, Z) from `point_3d` dense for either center or 3x3 median patch
-  - Filters out detections with invalid or too far depth (Z=0 or Z < threshold or z > 80)
-
-- Publishes:
-  - `/yolo3d_detections`: list of `[class, X, Y, Z]`
+  - Filters out detections with invalid or too far depth (Z <= 0 or z > 80)
+  - Visualize the color-coded distance and if the depth < 8m, send the warning signal (Achtung!!!).
 
 ---
