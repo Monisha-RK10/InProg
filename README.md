@@ -80,8 +80,4 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 ### Demo Warning Output
 
-<p align="center">
-  <img src="output/output.gif" width="1000"/>
-</p>
-
 
