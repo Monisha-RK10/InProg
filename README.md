@@ -78,7 +78,10 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 <img src="output/disparity.png" width="500"/>
 
-### Warning Output
+### Demo Warning Output
 
-<img src="output/output.gif" width="600"/>
+<p align="center">
+  <img src="output/output.gif" width="1000"/>
+</p>
+
 
