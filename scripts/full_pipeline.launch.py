@@ -1,3 +1,7 @@
+# Step 4: This code does the following:
+# Creates a launch file to launch the subscriber nodes first (depth, fusion).
+# Waits 2 seconds, then launches the image publisher.
+
 from launch import LaunchDescription
 from launch.actions import TimerAction
 from launch_ros.actions import Node
