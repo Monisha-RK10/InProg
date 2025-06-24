@@ -83,6 +83,14 @@ ros2 launch perception_pipeline full_pipeline.launch.py
 
 <img src="output/disparity.png" width="500"/>
 
+### Demo Warning Output
+
+<p align="center">
+  <img src="output/output.gif" width="1000"/>
+</p>
+
+[Download full MP4 video](output/output_video.mp4)
+
 
 ## Author
 
