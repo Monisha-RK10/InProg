@@ -65,7 +65,7 @@ class ObjectFusionWarningNode(Node):
             return
 
         img = self.bridge.imgmsg_to_cv2(self.latest_image, 'bgr8')
-        depth = self.bridge.imgmsg_to_cv2(self.latest_depth, desired_encoding='32FC3')
+        depth = self.bridge.imgmsg_to_cv2(self.latest_depth, desired_encoding='32FC3')                            # desired_encoding: Used when converting ROS Image -> NumPy (for subscribing)
 
         if depth.ndim != 3 or depth.shape[2] != 3:                                                                # 3 dimensions (height, width, channels) and exactly 3 channels.
             self.get_logger().warn("Invalid depth shape. Expected (H, W, 3)")
