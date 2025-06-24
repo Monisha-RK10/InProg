@@ -1,7 +1,7 @@
 ## Useful Concepts to Understand the Project Flow
 
 - **Focal Length (f) & Baseline (b)** - These are useful for computing depth, 3D reconstruction.
-- **Stereo SGBM & its Parameters** - This is used for computing disparity (d).
+- **Stereo SGBM & its Parameters to compute Disparity** - This is used for computing disparity (d).
 - **Computing Depth & full 3D Manually** - Using f, b, and d.
 - **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Skips the calculation of depth & full 3D manually.
 - **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, or world frame.
@@ -20,7 +20,7 @@
 
 ---
 
-### Stereo SGBM & its Parameters
+### Stereo SGBM & its Parameters to compute Disparity
 
 StereoSGBM works by comparing patches (blocks of pixels) between the left and right image. It tries to find the best horizontal shift (disparity) where the two patches match best.
 
