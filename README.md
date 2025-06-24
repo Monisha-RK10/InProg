@@ -77,3 +77,8 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 ### Intermediate Output (Rviz Disparity Image)
 
 <img src="output/disparity.png" width="500"/>
+
+### Warning Output
+
+<img src="media/output_video.gif" width="600"/>
+
