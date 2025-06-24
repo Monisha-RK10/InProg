@@ -78,11 +78,11 @@ class StereoDepthNode(Node):
         return fx, baseline
 
     def left_callback(self, msg):
-        self.left_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')
+        self.left_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='bgr8')         # Left image: gray for disparity, color for detection 
         self.process_stereo_pair()
 
     def right_callback(self, msg):
-        self.right_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='mono8')
+        self.right_image = self.bridge.imgmsg_to_cv2(msg, desired_encoding='mono8')       # Right image: gray for disparity
         self.process_stereo_pair()
 
     def process_stereo_pair(self):
