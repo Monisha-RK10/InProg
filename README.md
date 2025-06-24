@@ -69,6 +69,12 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
     - 🟡 Yellow: Medium (8–30 m)
     - 🟢 Green: Far (>30 m)
 
+---
+
+## Launch the 3D Perception Pipeline
+
+```bash
+ros2 launch perception_pipeline full_pipeline.launch.py
 
 ---
 
