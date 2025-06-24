@@ -7,6 +7,9 @@
 # Compute the center pixel coordinates (u, v).
 # Extract depth points around (u, v) either: Center pixel only, or 3x3 patch median (current approach).
 # Use median of valid points from the patch to get a single robust 3D coordinate (X, Y, Z)
+# Display  color-coded boxes (Red = near (< 8m), Yellow = mid (8-30 m), Green = far (> 30 m)) and 3D coordinates on the image
+# Trigger a warning (ACHTUNG!!!) overlay when object is within < 8 meters
+
 
 # Note:
 # ROS topics usually publish messages asynchronously, I have forced the node to wait for the next 'new pair' of messages before running inference again
@@ -24,11 +27,11 @@ import cv2
 # Function to choose color based on Z
 def get_color_by_distance(Z):
     if Z < 8:
-        return (0, 0, 255)      # Red for close
+        return (0, 0, 255)                                                                                        # Red for close
     elif Z < 30:
-        return (0, 255, 255)    # Yellow for mid
+        return (0, 255, 255)                                                                                      # Yellow for mid
     else:
-        return (0, 255, 0)      # Green for far
+        return (0, 255, 0)                                                                                        # Green for far
 
 class ObjectFusionWarningNode(Node):
     def __init__(self):
@@ -137,13 +140,13 @@ class ObjectFusionWarningNode(Node):
             label = det["class"]
             score = det["score"]
 
-            color = get_color_by_distance(Z)
+            color = get_color_by_distance(Z)                                                                      # Set color based on depth (Z)
 
             # Draw 2D bounding box
             cv2.rectangle(img, (xmin, ymin), (xmax, ymax), color, 2)
 
             # Draw label and 3D coordinates
-            if Z < self.warning_distance  and label in ["Car", "Cyclist"]:
+            if Z < self.warning_distance  and label in ["Car", "Cyclist"]:                                        # Condition to check trigger warning
                 warning_text = f" ACHTUNG!!!: {label.upper()} at {Z:.1f}m!"
                 print(f"[WARNING] {warning_text}")
                 cv2.putText(img, warning_text, (xmin, ymin - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0, 0, 255), 2)
