@@ -51,6 +51,7 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
  `numDisparities=128`
  
  - Max disparity range to search, must be divisible by 16.
+ - Multiples of 16 ensures memory alignment and proper disparity computation.
  - Bigger = more depth range, slower.
  - 128 pixels means we search from 0 to 127 pixel shifts.
  - Depth = fx.B/Disparity = 700 * 0.54/128 = 2.95 (approx.) where fx=721.54, B=0.5327 m for KITTI. Closest depth it can measure is ~3 meters.
