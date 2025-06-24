@@ -80,5 +80,5 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 ### Warning Output
 
-<img src="media/output.gif" width="600"/>
+<img src="output/output.gif" width="600"/>
 
