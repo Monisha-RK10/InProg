@@ -1,8 +1,9 @@
-# Step 1: Publish left (reference) and right (for disparity) Stereo KITTI frames.
+# Step 1: Publish left (reference) and right (for disparity) Stereo KITTI frames at 10 fps.
 
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
+from std_msgs.msg import Header
 from cv_bridge import CvBridge
 import cv2
 import os
@@ -18,7 +19,7 @@ class StereoImagePublisher(Node):
         self.left_dir = '/mnt/d/MID-APRIL/SOTA/Projects/Project7/KITTI_3D/left_images/0000'
         self.right_dir = '/mnt/d/MID-APRIL/SOTA/Projects/Project7/KITTI_3D/right_images/0000'
         self.image_filenames = sorted(os.listdir(self.left_dir))
-        self.timer = self.create_timer(0.5, self.timer_callback)  # 2 fps
+        self.timer = self.create_timer(0.1, self.timer_callback)                                      # 10 fps
         self.index = 0
 
     def timer_callback(self):
@@ -40,6 +41,12 @@ class StereoImagePublisher(Node):
         left_msg = self.bridge.cv2_to_imgmsg(left_img, encoding='bgr8')
         right_msg = self.bridge.cv2_to_imgmsg(right_img, encoding='bgr8')
 
+        header = Header()
+        header.stamp = self.get_clock().now().to_msg()
+
+        left_msg.header.frame_id = "camera_left"
+        right_msg.header.frame_id = "camera_right"
+        
         self.left_pub.publish(left_msg)
         self.right_pub.publish(right_msg)
 
