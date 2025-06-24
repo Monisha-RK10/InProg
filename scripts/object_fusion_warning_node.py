@@ -45,7 +45,6 @@ class ObjectFusionWarningNode(Node):
         self.latest_depth = None
 
         self.model = YOLO('/mnt/d/MID-APRIL/SOTA/Projects/Project7/yolo_models/yolov8n.pt')
-        self.class_map = {'person': 'Cyclist', 'car': 'Car'}
 
         self.confidence_threshold = 0.3
         self.use_patch = True                                                                                     # Toggle: True = use 3x3 patch, False = use center pixel only
@@ -163,7 +162,6 @@ class ObjectFusionWarningNode(Node):
         # Reset
         self.latest_image = None                                                                                  # Forces the node to wait for the next 'new pair' of messages before running inference again. To avoid repeatedly use the same outdated data. 
         self.latest_depth = None
-
 
 def main(args=None):
     rclpy.init(args=args)
