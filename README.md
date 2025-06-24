@@ -75,7 +75,7 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 ```bash
 ros2 launch perception_pipeline full_pipeline.launch.py
-
+```
 ---
 
 ## Sample Output 
