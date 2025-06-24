@@ -67,6 +67,7 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
     - 🟡 Yellow: Medium (8–30 m)
     - 🟢 Green: Far (>30 m)
 
+> Note: For simplicity, left and right images are published from the same node with minimal delay. In real-world setups with multiple camera nodes, time synchronization (e.g., ApproximateTimeSynchronizer) and proper header stamping would be essential.
 ---
 
 ## Launch the 3D Perception Pipeline
