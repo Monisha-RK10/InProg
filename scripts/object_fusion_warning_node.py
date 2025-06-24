@@ -10,7 +10,6 @@
 # Display  color-coded boxes (Red = near (< 8m), Yellow = mid (8-30 m), Green = far (> 30 m)) and 3D coordinates on the image.
 # Trigger a warning (ACHTUNG!!!) overlay when object is within < 8 meters.
 
-
 # Note:
 # ROS topics usually publish messages asynchronously, I have forced the node to wait for the next 'new pair' of messages before running inference again
 # to avoid repeatedly using the same outdated data. 
@@ -169,7 +168,6 @@ def main(args=None):
     rclpy.spin(node)
     node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == '__main__':
     main()
