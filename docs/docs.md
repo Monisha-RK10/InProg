@@ -106,13 +106,13 @@ StereoSGBM works by comparing patches (blocks of pixels) between the left and ri
 ### Computing Depth & full 3D Manually 
 > Note: We can skip this step (calculating depth & full 3D manually), as OpenCV supports `cv2.reprojectImageTo3D(disparity, Q)`.
 
-Depth Calculation: `Z = (f.b)/d`, where f is focal length, b is baseline, and d is disparity
+Depth Calculation: `Z = (f.b)/d`, where f is focal length, b is baseline, and d is disparity.
 
 So depth is accurate when you know:
 
-- How zoomed-in the cameras are (`focal length`)
-- How far apart the cameras are (`baseline`)
-- How much the object shifted between left/right (`disparity`)
+- How zoomed-in the cameras are (`focal length`).
+- How far apart the cameras are (`baseline`).
+- How much the object shifted between left/right (`disparity`).
 
 Once depth (Z) is calculated, the full 3D point in left camera frame is
 
@@ -165,12 +165,12 @@ where `(u, v)`: pixel, `(cx, cy)`: principle point x, y,  `Z`: depth, and `f`: f
 **When to Use**
 
 **Center Pixel**
-- When depth image is very clean (e.g., synthetic or high-quality sensor)
-- If real-time speed and simplicity are priority
+- When depth image is very clean (e.g., synthetic or high-quality sensor).
+- If real-time speed and simplicity are priority.
 
 **Median Patch**
-- For Real-world stereo depth, where noise, outliers, or NaNs are common
-- When Object borders may have broken depth -> median helps
-- For robust 3D position for downstream logic (e.g., warnings, planning)
+- For real-world stereo depth, where noise, outliers, or NaNs are common.
+- When object borders may have broken depth -> median helps.
+- For robust 3D position for downstream logic (e.g., warnings, planning).
 
 ---
