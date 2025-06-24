@@ -69,11 +69,11 @@ class StereoDepthNode(Node):
         with open(path, 'r') as f:
             lines = f.readlines()
 
-        P2 = [float(val) for val in lines[2].split()[1:]]
+        P2 = [float(val) for val in lines[2].split()[1:]]                                      # Skips the first token (which is "P2:") using [1:]
         P3 = [float(val) for val in lines[3].split()[1:]]
         fx = P2[0]
         Tx_left = P2[3] / fx                                                                   # Pixel units to meters
-        Tx_right = P3[3] / fx
+        Tx_right = P3[3] / fx                                                                  # Full translation vector is (Tx, Ty, Tz), but in stereo rectified setup, all the translation is along X-axis only.
         baseline = abs(Tx_right - Tx_left)                                                     # Usually Tx_left ≈ 0 and Tx_right ≈ -0.54 m, baseline = 0.54 m
         return fx, baseline
 
@@ -92,8 +92,8 @@ class StereoDepthNode(Node):
         imgL_gray = cv2.cvtColor(self.left_image, cv2.COLOR_BGR2GRAY)
         imgR_gray = self.right_image
 
-        header = Header()
-        header.stamp = self.get_clock().now().to_msg()
+        header = Header()                                                                      # Where the data is located (coordinate frame, like "camera" or "map").
+        header.stamp = self.get_clock().now().to_msg()                                         # When the data was valid (used for synchronization).
         header.frame_id = "camera"
 
         # Compute disparity
