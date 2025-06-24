@@ -70,7 +70,7 @@ class StereoDepthNode(Node):
             lines = f.readlines()
 
         P2 = [float(val) for val in lines[2].split()[1:]]                                      # Skips the first token (which is "P2:") using [1:]
-        P3 = [float(val) for val in lines[3].split()[1:]]
+        P3 = [float(val) for val in lines[3].split()[1:]]                                      # Python list of floats
         fx = P2[0]
         Tx_left = P2[3] / fx                                                                   # Pixel units to meters
         Tx_right = P3[3] / fx                                                                  # Full translation vector is (Tx, Ty, Tz), but in stereo rectified setup, all the translation is along X-axis only.
