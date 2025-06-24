@@ -60,6 +60,6 @@ This single line will:
 - Start stereo_depth_node
 - Start object_fusion_warning_node
 
-and run them all together via ROS 2 launch
+and run subscriber nodes (depth + fusion) first, then waits for 5 seconds to run the publisher node via ROS 2 launch.
 
 ---
