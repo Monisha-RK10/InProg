@@ -6,7 +6,7 @@
 - **Computing 3D** - Using cv2.reprojectImageTo3D(disparity, Q). Skips the calculation of depth & full 3D manually.
 - **Disparity vs Depth vs 3D (Sparse + Dense)** - To understand if we are in image plane, camera plane, or world frame.
 - **Coordinate Frame in the Pipeline** - To understand at what stage, we use intrinsic & extrinsic properties of camera.
-- **Center Pixel vs 3x3 Median Patch** - Two different ways to consider deoth for the detected object.
+- **Center Pixel vs 3x3 Median Patch** - Two different ways to consider depth for the detected object.
 
 ---
 
