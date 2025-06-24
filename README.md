@@ -80,4 +80,15 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 ### Demo Warning Output
 
+<p align="center">
+  <img src="output/output.gif" width="1000"/>
+</p>
 
+[Download full MP4 video](output/output_video.mp4)
+
+## Author
+
+**Monisha**  
+Connect via [Medium](https://medium.com/@monishatemp20)  [Linkedin](https://www.linkedin.com/in/monisha-rao-28129676/)
+
+---
