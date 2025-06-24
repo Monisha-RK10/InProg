@@ -116,8 +116,8 @@ class StereoDepthNode(Node):
 
         # PointCloud2 for RViz
         # Sparse point cloud, only where disparity was valid with shape (N, 3)
-        mask = disparity > 0
-        points = points_3D[mask]
+        mask = disparity > 0                                                                
+        points = points_3D[mask]                                                               # points_3D shape: (H, W, 3), mask shape: (H, W), output points shape: (N, 3)
         cloud_msg = pc2.create_cloud_xyz32(header, points)                                     # create_cloud_xyz32(header, points) internally assigns msg.header = header
         self.pub_points3d.publish(cloud_msg)                                                   # RViz expects an array of 3D points, not an image-shaped tensor.
 
