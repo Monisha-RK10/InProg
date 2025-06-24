@@ -92,12 +92,12 @@ class StereoDepthNode(Node):
         imgL_gray = cv2.cvtColor(self.left_image, cv2.COLOR_BGR2GRAY)
         imgR_gray = self.right_image
 
-        header = Header()                                                                      # Where the data is located (coordinate frame, like "camera" or "map").
+        header = Header()                                                                      
         header.stamp = self.get_clock().now().to_msg()                                         # When the data was valid (used for synchronization).
-        header.frame_id = "camera"
+        header.frame_id = "camera"                                                             # Where the data is located (coordinate frame, like "camera" or "map").
 
-        # Compute disparity
-        disparity = self.stereo.compute(imgL_gray, imgR_gray).astype(np.float32) / 16.0        # Image plane: each pixel stores disparity (in pixels). Output shape: (H, W) same as input images. 
+        # Compute disparity                                                                    # Image plane: each pixel stores disparity (in pixels). Output shape: (H, W) same as input images. 
+        disparity = self.stereo.compute(imgL_gray, imgR_gray).astype(np.float32) / 16.0        # OpenCV's StereoSGBM stores disparity as fixed-point integers ×16 to preserve subpixel precision. Example: a disparity of 56.75 is stored as 908
 
         # Compute depth
         depth_map = (self.fx * self.baseline) / (disparity + 1e-6)
