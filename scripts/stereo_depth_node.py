@@ -124,7 +124,7 @@ class StereoDepthNode(Node):
         # Dense 3D image for fusion with 2D detector
         # Keeps the original image shape (H, W, 3), lookup any pixel coordinate [u, v] directly and get [X, Y, Z]
         points_3D_img = points_3D.astype(np.float32)
-        dense_msg = self.bridge.cv2_to_imgmsg(points_3D_img, encoding='32FC3')                 # 3 channels float32, converts the numpy array to a ROS Image message.
+        dense_msg = self.bridge.cv2_to_imgmsg(points_3D_img, encoding='32FC3')                 # 3 channels float32, converts the numpy array to a ROS Image message. Encodeing: Used when converting NumPy -> ROS Image (for publishing).
         dense_msg.header = header                                                              # Manually assign the header. An empty stamp and frame_id can cause issues for a) Synchronization, b) Frame transforms (e.g., TF), c) Accurate fusion with 2D detections (YOLO)
         self.pub_points3d_dense.publish(dense_msg)                                             # Keep a dense version (shape: H × W × 3) in NumPy format, so that downstream detectors (like YOLO) can look up the 3D position of a bounding box center or any pixel directly
 
