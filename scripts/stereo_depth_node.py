@@ -1,6 +1,6 @@
 # Step 2: This code does the following:
 # Subscription: Subscribe to KITTI stereo images.
-# Stereo Detup: Set Stereo parameters such as minDisparity, numDisparities, blockSize, P1, P2, speckleWindowSize, etc.
+# Stereo Setup: Set Stereo parameters such as minDisparity, numDisparities, blockSize, P1, P2, speckleWindowSize, etc.
 # fx and Baseline:
 # Extracts fx from P2 using KITTI calib file. 
 # Compute baseline (B) using fx and Tx left & right. 
