@@ -6,9 +6,9 @@
 # For each detected bounding box:
 # Compute the center pixel coordinates (u, v).
 # Extract depth points around (u, v) either: Center pixel only, or 3x3 patch median (current approach).
-# Use median of valid points from the patch to get a single robust 3D coordinate (X, Y, Z)
-# Display  color-coded boxes (Red = near (< 8m), Yellow = mid (8-30 m), Green = far (> 30 m)) and 3D coordinates on the image
-# Trigger a warning (ACHTUNG!!!) overlay when object is within < 8 meters
+# Use median of valid points from the patch to get a single robust 3D coordinate (X, Y, Z).
+# Display  color-coded boxes (Red = near (< 8m), Yellow = mid (8-30 m), Green = far (> 30 m)) and 3D coordinates on the image.
+# Trigger a warning (ACHTUNG!!!) overlay when object is within < 8 meters.
 
 
 # Note:
