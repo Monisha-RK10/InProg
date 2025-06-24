@@ -1,3 +1,18 @@
+# Step 3: The code does the following:
+# Subscribe to left camera image and depth (3D points) topics from KITTI.
+# Set a confidence threshold for YOLO detections.
+# Map COCO classes (like car, person) to KITTI classes (Car, Cyclist), focusing only on relevant classes.
+# Run YOLO detection on the left image.
+# For each detected bounding box:
+# Compute the center pixel coordinates (u, v).
+# Extract depth points around (u, v) either: Center pixel only, or 3x3 patch median (current approach).
+# Use median of valid points from the patch to get a single robust 3D coordinate (X, Y, Z)
+
+# Note:
+# ROS topics usually publish messages asynchronously, I have forced the node to wait for the next 'new pair' of messages before running inference again
+# to avoid repeatedly using the same outdated data. 
+# To make it more robust, add timestamps or message synchronization to better pair the image and depth frames.
+
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
@@ -20,17 +35,17 @@ class ObjectFusionWarningNode(Node):
         super().__init__('object_fusion_warning_node')
 
         self.bridge = CvBridge()
-        self.image_sub = self.create_subscription(Image, '/camera/left/image_raw', self.image_callback, 10)
+        self.image_sub = self.create_subscription(Image, '/camera/left/image_raw', self.image_callback, 10)       # Queue size for message buffering.
         self.depth_sub = self.create_subscription(Image, '/stereo/points_3d_dense', self.depth_callback, 10)
 
-        self.latest_image = None
+        self.latest_image = None                                                                                  # Allows node to wait for both to be available before processing
         self.latest_depth = None
 
         self.model = YOLO('/mnt/d/MID-APRIL/SOTA/Projects/Project7/yolo_models/yolov8n.pt')
         self.class_map = {'person': 'Cyclist', 'car': 'Car'}
 
         self.confidence_threshold = 0.3
-        self.use_patch = True                                                 # Toggle: True = use 3x3 patch, False = use center pixel only
+        self.use_patch = True                                                                                     # Toggle: True = use 3x3 patch, False = use center pixel only
 
         self.warning_distance = 8.0
 
@@ -45,13 +60,13 @@ class ObjectFusionWarningNode(Node):
         self.try_infer()
 
     def try_infer(self):
-        if self.latest_image is None or self.latest_depth is None:
+        if self.latest_image is None or self.latest_depth is None:                                                # If either the latest image or depth is missing, exit without doing anything
             return
 
         img = self.bridge.imgmsg_to_cv2(self.latest_image, 'bgr8')
         depth = self.bridge.imgmsg_to_cv2(self.latest_depth, desired_encoding='32FC3')
 
-        if depth.ndim != 3 or depth.shape[2] != 3:
+        if depth.ndim != 3 or depth.shape[2] != 3:                                                                # 3 dimensions (height, width, channels) and exactly 3 channels.
             self.get_logger().warn("Invalid depth shape. Expected (H, W, 3)")
             return
 
@@ -83,16 +98,16 @@ class ObjectFusionWarningNode(Node):
             u = int((x1 + x2) / 2)
             v = int((y1 + y2) / 2)
 
-            if v < 1 or v >= depth.shape[0] - 1 or u < 1 or u >= depth.shape[1] - 1:
+            if v < 1 or v >= depth.shape[0] - 1 or u < 1 or u >= depth.shape[1] - 1:                              # Skip detections near image edges to avoid indexing errors when using patch around center pixel.
                 continue
 
             if self.use_patch:
-                patch = depth[v - 1:v + 2, u - 1:u + 2, :]
-                patch = patch.reshape(-1, 3)
-                patch = patch[np.all(np.isfinite(patch), axis=1)]
-                if len(patch) == 0:
+                patch = depth[v - 1:v + 2, u - 1:u + 2, :]                                                        # Extract a 3x3 patch of depth points around center pixel. First index (v-1:v+2) is along rows -> height. Second index (u-1:u+2) is along columns -> width. If (u, v) = (100, 50), then patch = depth[rows=height=49:52, columns=width = 99:102, :]
+                patch = patch.reshape(-1, 3)                                                                      # Flatten the patch into a list of 3D points.
+                patch = patch[np.all(np.isfinite(patch), axis=1)]                                                 # Filter out any invalid (non-finite) points.
+                if len(patch) == 0:                                                                               # If no valid points remain, skip this detection.
                     continue
-                X, Y, Z = np.median(patch, axis=0)
+                X, Y, Z = np.median(patch, axis=0)                                                                # Calculate the median X, Y, Z coordinates from the patch.
                 if not np.isfinite(Z) or Z <= 0:
                     continue
             else:
@@ -143,7 +158,7 @@ class ObjectFusionWarningNode(Node):
         self.frame_id += 1
 
         # Reset
-        self.latest_image = None
+        self.latest_image = None                                                                                  # Forces the node to wait for the next 'new pair' of messages before running inference again. To avoid repeatedly use the same outdated data. 
         self.latest_depth = None
 
 
