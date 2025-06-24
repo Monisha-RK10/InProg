@@ -120,13 +120,9 @@ Once depth (Z) is calculated, the full 3D point in left camera frame is
  
  `Y = (u-cy).Z/f`
 
-where `(u, v)`: pixel, 
+where `(u, v)`: pixel, `(cx, cy)`: principle point x, y, 
 
-`(cx, cy)`: principle point x, y, 
-
-`Z`: depth, and 
-
-`f`: focal length
+`Z`: depth, and `f`: focal length
 
 ---
 
