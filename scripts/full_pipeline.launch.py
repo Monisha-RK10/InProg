@@ -1,3 +1,5 @@
+# Step 4: Launch file to run all 3 nodes together
+
 from launch import LaunchDescription
 from launch_ros.actions import Node
 
