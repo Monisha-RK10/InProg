@@ -48,6 +48,8 @@ Handles detection, 3D fusion, and warning generation in one node.
 - Visualization:
   - Live annotated detection image with 3D info (`cv2.imshow(...)`)
 
+---
+
 ### **full_pipeline.launch.py**
 
 `ros2 launch perception_pipeline full_pipeline.launch.py`
