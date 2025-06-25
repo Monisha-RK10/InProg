@@ -37,8 +37,8 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 
 - **`stereo_depth_node.py`**
   - Subscribes to:
-   - `/camera/left/image_raw`
-   - `/camera/right/image_raw`
+     - `/camera/left/image_raw`
+     - `/camera/right/image_raw`
 
   - Computes:
     - Disparity map using OpenCV's StereoSGBM
@@ -53,20 +53,19 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
     - `/stereo/points_3d_dense`
 
 - **`object_fusion_warning_node.py`**
+  - Subscribes to:
+   - `/camera/left/image_raw` – for YOLOv8 detections
+   - `/stereo/points_3d_dense` – for (X, Y, Z) lookup
 
-Subscribes to:
-  - `/camera/left/image_raw` – for YOLOv8 detections
-  - `/stereo/points_3d_dense` – for (X, Y, Z) lookup
-
-Processes:
-  - YOLOv8 detection (`car`, `person` mapped to `Car`, `Cyclist`)
-  - 3D coordinate extraction via center pixel or 3×3 patch median
-  - Filters out invalid or far objects (Z ≤ 0 or Z > 80 m)
-  - Triggers a proximity warning (**⚠️ACHTUNG!!!**) if Z < 8 m
-  - Displays color-coded boxes:
-    - 🔴 Red: Near (<8 m)
-    - 🟡 Yellow: Medium (8–30 m)
-    - 🟢 Green: Far (>30 m)
+  - Processes:
+    - YOLOv8 detection (`car`, `person` mapped to `Car`, `Cyclist`)
+    - 3D coordinate extraction via center pixel or 3×3 patch median
+    - Filters out invalid or far objects (Z ≤ 0 or Z > 80 m)
+    - Triggers a proximity warning (**⚠️ACHTUNG!!!**) if Z < 8 m
+    - Displays color-coded boxes:
+      - 🔴 Red: Near (<8 m)
+      - 🟡 Yellow: Medium (8–30 m)
+      - 🟢 Green: Far (>30 m)
 
 > Note: For simplicity, left and right images are published from the same node with minimal delay. In real-world setups with multiple camera nodes, time synchronization (e.g., ApproximateTimeSynchronizer) and proper header stamping would be essential.
 ---
