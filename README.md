@@ -75,9 +75,10 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 ```bash
 ros2 launch perception_pipeline full_pipeline.launch.py
 ```
----
 > This single line will run subscriber nodes (`stereo_depth_node` + `object_fusion_warning_node`) first, then waits for 5 seconds to run the publisher node (`stereo_image_publisher`) via ROS 2 launch.
-> 
+
+---
+
 ## Sample Output 
 
 ### Intermediate Output (Rviz Disparity Image)
