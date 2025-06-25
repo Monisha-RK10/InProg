@@ -30,34 +30,34 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 ----
 ## Pipeline Overview
 
-**`stereo_image_publisher.py`**
-- Publishes KITTI stereo images as ROS 2 topics.
+- **`stereo_image_publisher.py`**
+Publishes KITTI stereo images as ROS 2 topics.
   - `/camera/left/image_raw`
   - `/camera/right/image_raw`
 
-**`stereo_depth_node.py`**
-- Subscribes to:
+- **`stereo_depth_node.py`**
+Subscribes to:
   - `/camera/left/image_raw`
   - `/camera/right/image_raw`
 
-- Computes:
+Computes:
   - Disparity map using OpenCV's StereoSGBM
   - Depth using known fx, baseline, cx, cy
 
-- Reprojects:
+Reprojects:
   - To 3D point cloud using Q matrix
 
-- Publishes:
+Publishes:
   - `/stereo/disparity_image`
   - `/stereo/points_3d`
   - `/stereo/points_3d_dense`
 
-**`object_fusion_warning_node.py`**
-- Subscribes to:
+- **`object_fusion_warning_node.py`**
+Subscribes to:
   - `/camera/left/image_raw` – for YOLOv8 detections
   - `/stereo/points_3d_dense` – for (X, Y, Z) lookup
 
-- Processes:
+Processes:
   - YOLOv8 detection (`car`, `person` mapped to `Car`, `Cyclist`)
   - 3D coordinate extraction via center pixel or 3×3 patch median
   - Filters out invalid or far objects (Z ≤ 0 or Z > 80 m)
