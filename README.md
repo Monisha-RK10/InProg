@@ -1,4 +1,4 @@
-# Real-Time 3D-Aware Object Perception and Proximity Warning using Stereo Vision and YOLOv8
+# Real-Time 3D-Aware Object Perception and Proximity Warning using Stereo Vision
 
 This project demonstrates a real-time pipeline for 3D-aware object detection by fusing stereo vision depth estimation with YOLOv8 2D detections. It estimates object 3D positions in the left camera’s 3D coordinate frame, enabling accurate distance-based alerts for dynamic objects like cars and cyclists.
 
