@@ -36,22 +36,21 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
     - `/camera/right/image_raw`
 
 - **`stereo_depth_node.py`**
+  - Subscribes to:
+   - `/camera/left/image_raw`
+   - `/camera/right/image_raw`
 
-Subscribes to:
-  - `/camera/left/image_raw`
-  - `/camera/right/image_raw`
+  - Computes:
+    - Disparity map using OpenCV's StereoSGBM
+    - Depth using known fx, baseline, cx, cy
 
-Computes:
-  - Disparity map using OpenCV's StereoSGBM
-  - Depth using known fx, baseline, cx, cy
+  - Reprojects:
+    - To 3D point cloud using Q matrix
 
-Reprojects:
-  - To 3D point cloud using Q matrix
-
-Publishes:
-  - `/stereo/disparity_image`
-  - `/stereo/points_3d`
-  - `/stereo/points_3d_dense`
+  - Publishes:
+    - `/stereo/disparity_image`
+    - `/stereo/points_3d`
+    - `/stereo/points_3d_dense`
 
 - **`object_fusion_warning_node.py`**
 
