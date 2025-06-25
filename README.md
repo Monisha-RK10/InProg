@@ -31,10 +31,9 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 ## Pipeline Overview
 
 - **`stereo_image_publisher.py`**
-
-Publishes KITTI stereo images as ROS 2 topics.
-  - `/camera/left/image_raw`
-  - `/camera/right/image_raw`
+  - Publishes KITTI stereo images as ROS 2 topics.
+    - `/camera/left/image_raw`
+    - `/camera/right/image_raw`
 
 - **`stereo_depth_node.py`**
 
