@@ -30,42 +30,45 @@ For advanced class mapping, refer to my earlier project: [Real-Time Multi-Object
 ----
 ## Pipeline Overview
 
-- **`stereo_image_publisher.py`**
-  - Publishes KITTI stereo images as ROS 2 topics.
-    - `/camera/left/image_raw`
-    - `/camera/right/image_raw`
+**`stereo_image_publisher.py`**
 
-- **`stereo_depth_node.py`**
-  - Subscribes to:
-     - `/camera/left/image_raw`
-     - `/camera/right/image_raw`
+Publishes KITTI stereo images as ROS 2 topics.
+- `/camera/left/image_raw`
+- `/camera/right/image_raw`
 
-  - Computes:
-    - Disparity map using OpenCV's StereoSGBM
-    - Depth using known fx, baseline, cx, cy
+**`stereo_depth_node.py`**
 
-  - Reprojects:
-    - To 3D point cloud using Q matrix
+Subscribes to:
+ - `/camera/left/image_raw`
+ - `/camera/right/image_raw`
 
-  - Publishes:
-    - `/stereo/disparity_image`
-    - `/stereo/points_3d`
-    - `/stereo/points_3d_dense`
+Computes:
+ - Disparity map using OpenCV's StereoSGBM
+ - Depth using known fx, baseline, cx, cy
 
-- **`object_fusion_warning_node.py`**
-  - Subscribes to:
-   - `/camera/left/image_raw` – for YOLOv8 detections
-   - `/stereo/points_3d_dense` – for (X, Y, Z) lookup
+Reprojects:
+ - To 3D point cloud using Q matrix
 
-  - Processes:
-    - YOLOv8 detection (`car`, `person` mapped to `Car`, `Cyclist`)
-    - 3D coordinate extraction via center pixel or 3×3 patch median
-    - Filters out invalid or far objects (Z ≤ 0 or Z > 80 m)
-    - Triggers a proximity warning (**⚠️ACHTUNG!!!**) if Z < 8 m
-    - Displays color-coded boxes:
-      - 🔴 Red: Near (<8 m)
-      - 🟡 Yellow: Medium (8–30 m)
-      - 🟢 Green: Far (>30 m)
+Publishes:
+ - `/stereo/disparity_image`
+ - `/stereo/points_3d`
+ - `/stereo/points_3d_dense`
+
+**`object_fusion_warning_node.py`**
+
+Subscribes to:
+  - `/camera/left/image_raw` – for YOLOv8 detections
+  - `/stereo/points_3d_dense` – for (X, Y, Z) lookup
+
+Processes:
+  - YOLOv8 detection (`car`, `person` mapped to `Car`, `Cyclist`)
+  - 3D coordinate extraction via center pixel or 3×3 patch median
+  - Filters out invalid or far objects (Z ≤ 0 or Z > 80 m)
+  - Triggers a proximity warning (**⚠️ACHTUNG!!!**) if Z < 8 m
+  - Displays color-coded boxes:
+    - 🔴 Red: Near (<8 m)
+    - 🟡 Yellow: Medium (8–30 m)
+    - 🟢 Green: Far (>30 m)
 
 > Note: For simplicity, left and right images are published from the same node with minimal delay. In real-world setups with multiple camera nodes, time synchronization (e.g., ApproximateTimeSynchronizer) and proper header stamping would be essential.
 ---
