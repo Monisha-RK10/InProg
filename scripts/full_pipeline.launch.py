@@ -22,7 +22,7 @@ def generate_launch_description():
             name='object_fusion_warning_node',
             output='screen'
         ),
-        # Delay the stereo_image_publisher node by 2 seconds
+        # Delay the stereo_image_publisher node by 5 seconds
         TimerAction(
             period=5.0,
             actions=[
